@@ -96,6 +96,7 @@ AC_SUBST(SOIL_LIBADD)
 
 AC_OUTPUT([
 	Makefile
+	zod/Makefile
 	proxy/Makefile])
 
 

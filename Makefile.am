@@ -1,5 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = proxy 
+SUBDIRS = zod proxy 
 
 EXTRA_DIST = deploy.sh
