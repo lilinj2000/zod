@@ -79,8 +79,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = proxy$(EXEEXT)
-subdir = proxy
+bin_PROGRAMS = forwarder$(EXEEXT)
+subdir = forwarder
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp $(noinst_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -95,19 +95,19 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_proxy_OBJECTS = proxy-ProxyConfig.$(OBJEXT) \
-	proxy-ProxyServer.$(OBJEXT) proxy-Main.$(OBJEXT)
-proxy_OBJECTS = $(am_proxy_OBJECTS)
+am_forwarder_OBJECTS = forwarder-Config.$(OBJEXT) \
+	forwarder-Server.$(OBJEXT) forwarder-Main.$(OBJEXT)
+forwarder_OBJECTS = $(am_forwarder_OBJECTS)
 am__DEPENDENCIES_1 =
-proxy_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+forwarder_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-proxy_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+forwarder_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(proxy_LDFLAGS) $(LDFLAGS) -o $@
+	$(CXXFLAGS) $(forwarder_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -142,8 +142,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(proxy_SOURCES)
-DIST_SOURCES = $(proxy_SOURCES)
+SOURCES = $(forwarder_SOURCES)
+DIST_SOURCES = $(forwarder_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -304,26 +304,26 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-proxy_SOURCES = \
-	ProxyConfig.cc \
-	ProxyServer.cc \
+forwarder_SOURCES = \
+	Config.cc \
+	Server.cc \
 	Main.cc
 
-proxy_CPPFLAGS = \
+forwarder_CPPFLAGS = \
 		$(BOOST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
 		$(ZMQ_CPPFLAGS)
 
-proxy_LDADD = \
+forwarder_LDADD = \
 	$(BOOST_LIBADD) \
 	$(SOIL_LIBADD) \
 	$(ZMQ_LIBADD)
 
-proxy_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
+forwarder_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
 # header files
-noinst_HEADERS = ProxyConfig.hh ProxyLog.hh ProxyServer.hh 
-EXTRA_DIST = env.sh proxy.cfg log.cfg
+noinst_HEADERS = Config.hh Log.hh Server.hh 
+EXTRA_DIST = env.sh forwarder.cfg log.cfg
 all: all-am
 
 .SUFFIXES:
@@ -337,9 +337,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign proxy/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign forwarder/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign proxy/Makefile
+	  $(AUTOMAKE) --foreign forwarder/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -408,9 +408,9 @@ clean-binPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-proxy$(EXEEXT): $(proxy_OBJECTS) $(proxy_DEPENDENCIES) $(EXTRA_proxy_DEPENDENCIES) 
-	@rm -f proxy$(EXEEXT)
-	$(AM_V_CXXLD)$(proxy_LINK) $(proxy_OBJECTS) $(proxy_LDADD) $(LIBS)
+forwarder$(EXEEXT): $(forwarder_OBJECTS) $(forwarder_DEPENDENCIES) $(EXTRA_forwarder_DEPENDENCIES) 
+	@rm -f forwarder$(EXEEXT)
+	$(AM_V_CXXLD)$(forwarder_LINK) $(forwarder_OBJECTS) $(forwarder_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -418,9 +418,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proxy-Main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proxy-ProxyConfig.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proxy-ProxyServer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/forwarder-Config.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/forwarder-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/forwarder-Server.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -443,47 +443,47 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-proxy-ProxyConfig.o: ProxyConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-ProxyConfig.o -MD -MP -MF $(DEPDIR)/proxy-ProxyConfig.Tpo -c -o proxy-ProxyConfig.o `test -f 'ProxyConfig.cc' || echo '$(srcdir)/'`ProxyConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-ProxyConfig.Tpo $(DEPDIR)/proxy-ProxyConfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ProxyConfig.cc' object='proxy-ProxyConfig.o' libtool=no @AMDEPBACKSLASH@
+forwarder-Config.o: Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT forwarder-Config.o -MD -MP -MF $(DEPDIR)/forwarder-Config.Tpo -c -o forwarder-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/forwarder-Config.Tpo $(DEPDIR)/forwarder-Config.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='forwarder-Config.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-ProxyConfig.o `test -f 'ProxyConfig.cc' || echo '$(srcdir)/'`ProxyConfig.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o forwarder-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
 
-proxy-ProxyConfig.obj: ProxyConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-ProxyConfig.obj -MD -MP -MF $(DEPDIR)/proxy-ProxyConfig.Tpo -c -o proxy-ProxyConfig.obj `if test -f 'ProxyConfig.cc'; then $(CYGPATH_W) 'ProxyConfig.cc'; else $(CYGPATH_W) '$(srcdir)/ProxyConfig.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-ProxyConfig.Tpo $(DEPDIR)/proxy-ProxyConfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ProxyConfig.cc' object='proxy-ProxyConfig.obj' libtool=no @AMDEPBACKSLASH@
+forwarder-Config.obj: Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT forwarder-Config.obj -MD -MP -MF $(DEPDIR)/forwarder-Config.Tpo -c -o forwarder-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/forwarder-Config.Tpo $(DEPDIR)/forwarder-Config.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='forwarder-Config.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-ProxyConfig.obj `if test -f 'ProxyConfig.cc'; then $(CYGPATH_W) 'ProxyConfig.cc'; else $(CYGPATH_W) '$(srcdir)/ProxyConfig.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o forwarder-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
 
-proxy-ProxyServer.o: ProxyServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-ProxyServer.o -MD -MP -MF $(DEPDIR)/proxy-ProxyServer.Tpo -c -o proxy-ProxyServer.o `test -f 'ProxyServer.cc' || echo '$(srcdir)/'`ProxyServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-ProxyServer.Tpo $(DEPDIR)/proxy-ProxyServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ProxyServer.cc' object='proxy-ProxyServer.o' libtool=no @AMDEPBACKSLASH@
+forwarder-Server.o: Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT forwarder-Server.o -MD -MP -MF $(DEPDIR)/forwarder-Server.Tpo -c -o forwarder-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/forwarder-Server.Tpo $(DEPDIR)/forwarder-Server.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='forwarder-Server.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-ProxyServer.o `test -f 'ProxyServer.cc' || echo '$(srcdir)/'`ProxyServer.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o forwarder-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
 
-proxy-ProxyServer.obj: ProxyServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-ProxyServer.obj -MD -MP -MF $(DEPDIR)/proxy-ProxyServer.Tpo -c -o proxy-ProxyServer.obj `if test -f 'ProxyServer.cc'; then $(CYGPATH_W) 'ProxyServer.cc'; else $(CYGPATH_W) '$(srcdir)/ProxyServer.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-ProxyServer.Tpo $(DEPDIR)/proxy-ProxyServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ProxyServer.cc' object='proxy-ProxyServer.obj' libtool=no @AMDEPBACKSLASH@
+forwarder-Server.obj: Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT forwarder-Server.obj -MD -MP -MF $(DEPDIR)/forwarder-Server.Tpo -c -o forwarder-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/forwarder-Server.Tpo $(DEPDIR)/forwarder-Server.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='forwarder-Server.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-ProxyServer.obj `if test -f 'ProxyServer.cc'; then $(CYGPATH_W) 'ProxyServer.cc'; else $(CYGPATH_W) '$(srcdir)/ProxyServer.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o forwarder-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
 
-proxy-Main.o: Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Main.o -MD -MP -MF $(DEPDIR)/proxy-Main.Tpo -c -o proxy-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Main.Tpo $(DEPDIR)/proxy-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='proxy-Main.o' libtool=no @AMDEPBACKSLASH@
+forwarder-Main.o: Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT forwarder-Main.o -MD -MP -MF $(DEPDIR)/forwarder-Main.Tpo -c -o forwarder-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/forwarder-Main.Tpo $(DEPDIR)/forwarder-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='forwarder-Main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o forwarder-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
 
-proxy-Main.obj: Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Main.obj -MD -MP -MF $(DEPDIR)/proxy-Main.Tpo -c -o proxy-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Main.Tpo $(DEPDIR)/proxy-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='proxy-Main.obj' libtool=no @AMDEPBACKSLASH@
+forwarder-Main.obj: Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT forwarder-Main.obj -MD -MP -MF $(DEPDIR)/forwarder-Main.Tpo -c -o forwarder-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/forwarder-Main.Tpo $(DEPDIR)/forwarder-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='forwarder-Main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(forwarder_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o forwarder-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

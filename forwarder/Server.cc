@@ -1,20 +1,20 @@
-#include "ProxyServer.hh"
-#include "ProxyConfig.hh"
-#include "ProxyLog.hh"
+#include "Server.hh"
+#include "Config.hh"
+#include "Log.hh"
 
 #include "zmq.h"
 #include <cassert>
 
-namespace proxy
+namespace forwarder
 {
 
-ProxyServer::ProxyServer(ProxyOptions* options):
+Server::Server(Options* options):
     options_(options),
     context_(nullptr),
     xsub_(nullptr),
     xpub_(nullptr)
 {
-  PROXY_TRACE <<"ProxyServer::ProxyServer()";
+  FORWARDER_TRACE <<"Server::Server()";
   
   context_ = zmq_ctx_new();
   assert( context_ );
@@ -25,7 +25,7 @@ ProxyServer::ProxyServer(ProxyOptions* options):
   xpub_ = zmq_socket(context_, ZMQ_XPUB);
   assert( xpub_ );
 
-  PROXY_INFO <<"xsub_addr: " <<options_->xsub_addr;
+  FORWARDER_INFO <<"xsub_addr: " <<options_->xsub_addr;
   if( zmq_bind(xsub_, options_->xsub_addr.data())<0 )
   {
     std::string err = "xsub bind error.\n";
@@ -33,7 +33,7 @@ ProxyServer::ProxyServer(ProxyOptions* options):
   }
   
 
-  PROXY_INFO <<"xpub_addr: " <<options_->xpub_addr;
+  FORWARDER_INFO <<"xpub_addr: " <<options_->xpub_addr;
   if( zmq_bind(xpub_, options_->xpub_addr.data())<0 )
   {
     std::string err = "xpub bind error.\n";
@@ -44,9 +44,9 @@ ProxyServer::ProxyServer(ProxyOptions* options):
   
 }
 
-ProxyServer::~ProxyServer()
+Server::~Server()
 {
-  PROXY_TRACE <<"ProxyServer::~ProxyServer()";
+  FORWARDER_TRACE <<"Server::~Server()";
   
   zmq_close( xsub_ );
   zmq_close( xpub_ );

@@ -1,22 +1,22 @@
-#ifndef PROXY_CONFIG_HH
-#define PROXY_CONFIG_HH
+#ifndef FORWARDER_CONFIG_HH
+#define FORWARDER_CONFIG_HH
 
 #include <string>
 #include <memory>
 #include "soil/Config.hh"
 
-namespace proxy
+namespace forwarder
 {
 
 namespace po = boost::program_options;
 
-class ProxyOptions : public soil::Options
+class Options : public soil::Options
 {
  public:
 
-  ProxyOptions();
+  Options();
   
-  virtual ~ProxyOptions();
+  virtual ~Options();
 
   virtual po::options_description* configOptions();
 
@@ -30,20 +30,20 @@ class ProxyOptions : public soil::Options
   boost::program_options::options_description config_options_;
 };
 
-class ProxyConfig
+class Config
 {
  public:
   
-  ProxyConfig(int argc=0, char* argv[]=NULL);
-  ~ProxyConfig();
+  Config(int argc=0, char* argv[]=NULL);
+  ~Config();
 
-  ProxyOptions* proxyOptions()
+  Options* options()
   {
-    return proxy_options_.get();
+    return options_.get();
   }
-
+  
  private:
-  std::unique_ptr<ProxyOptions> proxy_options_;
+  std::unique_ptr<Options> options_;
 
 };
 
