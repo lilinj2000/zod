@@ -24,6 +24,6 @@ noinst_HEADERS = Config.hh Log.hh Server.hh
 
 EXTRA_DIST = env.sh bus.cfg log.cfg
 
-# proxydir = $(bindir)
-# proxy_DATA = $(EXTRA_DIST)
+busdir = $(bindir)
+bus_DATA = $(EXTRA_DIST)
 

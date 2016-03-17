@@ -99,7 +99,8 @@ AC_OUTPUT([
 	zod/Makefile
 	forwarder/Makefile
 	streamer/Makefile
-	bus/Makefile])
+	bus/Makefile
+	service/Makefile])
 
 
 

@@ -24,6 +24,6 @@ noinst_HEADERS = Config.hh Log.hh Server.hh
 
 EXTRA_DIST = env.sh forwarder.cfg log.cfg
 
-# proxydir = $(bindir)
-# proxy_DATA = $(EXTRA_DIST)
+forwarderdir = $(bindir)
+forwarder_DATA = $(EXTRA_DIST)
 

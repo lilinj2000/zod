@@ -24,6 +24,6 @@ noinst_HEADERS = Config.hh Log.hh Server.hh
 
 EXTRA_DIST = env.sh streamer.cfg log.cfg
 
-# proxydir = $(bindir)
-# proxy_DATA = $(EXTRA_DIST)
+streamerdir = $(bindir)
+streamer_DATA = $(EXTRA_DIST)
 
