@@ -22,22 +22,18 @@ class Service
 
   virtual ~Service();
 
+ protected:
+
   void send(const void* msg, unsigned int len);
   
+  void * createSock(SockType sock_type);
+
   void stop();
 
-  void* sock()
-  {
-    return sock_;
-  }
-    
- protected:
-  void * createSock(SockType sock_type);
-  
- private:
   std::string addr_;
 
   void* context_;
+  
   void* sock_;
 };
 

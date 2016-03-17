@@ -16,7 +16,7 @@ RecvService::RecvService(SockType sock_type, const std::string& addr, MsgCallbac
 
   if( sock_type==SUB_SOCK )
   {
-    if( zmq_setsockopt(sock(), ZMQ_SUBSCRIBE, "", 0)<0 )
+    if( zmq_setsockopt(sock_, ZMQ_SUBSCRIBE, "", 0)<0 )
     {
       std::string err = "set subscribe options failed.\n";
       throw std::runtime_error( err+zmq_strerror(zmq_errno()) );
@@ -48,7 +48,7 @@ void RecvService::run()
     zmq_msg_t msg;
     zmq_msg_init( &msg );
 
-    if( zmq_msg_recv(&msg, sock(), 0)<0 )
+    if( zmq_msg_recv(&msg, sock_, 0)<0 )
     {
       ZOD_ERROR <<"recv msg failed.\n"
                  <<zmq_strerror(zmq_errno());
