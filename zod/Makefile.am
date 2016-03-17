@@ -3,7 +3,8 @@ AUTOMAKE_OPTIONS = foreign
 noinst_HEADERS = 
 
 header_files = \
-	ZodDef.hh PubService.hh SubService.hh
+	ZodDef.hh PubService.hh SubService.hh \
+	PushService.hh PullService.hh
 
 EXTRA_DIST = $(header_files)
 

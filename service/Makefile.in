@@ -124,8 +124,9 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libzod_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
-am_libzod_la_OBJECTS = libzod_la-PubServiceImpl.lo \
-	libzod_la-SubServiceImpl.lo
+am_libzod_la_OBJECTS = libzod_la-Service.lo libzod_la-RecvService.lo \
+	libzod_la-PubServiceImpl.lo libzod_la-SubServiceImpl.lo \
+	libzod_la-PushServiceImpl.lo libzod_la-PullServiceImpl.lo
 libzod_la_OBJECTS = $(am_libzod_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -332,8 +333,12 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 lib_LTLIBRARIES = libzod.la
 libzod_la_SOURCES = \
+		Service.cc \
+		RecvService.cc \
 		PubServiceImpl.cc \
-		SubServiceImpl.cc
+		SubServiceImpl.cc \
+		PushServiceImpl.cc \
+		PullServiceImpl.cc
 
 libzod_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
@@ -352,7 +357,10 @@ libzod_la_LDFLAGS = \
 
 
 # header files
-noinst_HEADERS = PubServiceImpl.hh
+noinst_HEADERS = Service.hh RecvService.hh \
+		PubServiceImpl.hh SubServiceImpl.hh \
+		PushServiceImpl.hh PullServiceImpl.hh
+
 EXTRA_DIST = 
 all: all-am
 
@@ -434,6 +442,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libzod_la-PubServiceImpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libzod_la-PullServiceImpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libzod_la-PushServiceImpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libzod_la-RecvService.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libzod_la-Service.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libzod_la-SubServiceImpl.Plo@am__quote@
 
 .cc.o:
@@ -457,6 +469,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
+libzod_la-Service.lo: Service.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libzod_la-Service.lo -MD -MP -MF $(DEPDIR)/libzod_la-Service.Tpo -c -o libzod_la-Service.lo `test -f 'Service.cc' || echo '$(srcdir)/'`Service.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libzod_la-Service.Tpo $(DEPDIR)/libzod_la-Service.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Service.cc' object='libzod_la-Service.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libzod_la-Service.lo `test -f 'Service.cc' || echo '$(srcdir)/'`Service.cc
+
+libzod_la-RecvService.lo: RecvService.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libzod_la-RecvService.lo -MD -MP -MF $(DEPDIR)/libzod_la-RecvService.Tpo -c -o libzod_la-RecvService.lo `test -f 'RecvService.cc' || echo '$(srcdir)/'`RecvService.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libzod_la-RecvService.Tpo $(DEPDIR)/libzod_la-RecvService.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='RecvService.cc' object='libzod_la-RecvService.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libzod_la-RecvService.lo `test -f 'RecvService.cc' || echo '$(srcdir)/'`RecvService.cc
+
 libzod_la-PubServiceImpl.lo: PubServiceImpl.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libzod_la-PubServiceImpl.lo -MD -MP -MF $(DEPDIR)/libzod_la-PubServiceImpl.Tpo -c -o libzod_la-PubServiceImpl.lo `test -f 'PubServiceImpl.cc' || echo '$(srcdir)/'`PubServiceImpl.cc
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libzod_la-PubServiceImpl.Tpo $(DEPDIR)/libzod_la-PubServiceImpl.Plo
@@ -470,6 +496,20 @@ libzod_la-SubServiceImpl.lo: SubServiceImpl.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='SubServiceImpl.cc' object='libzod_la-SubServiceImpl.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libzod_la-SubServiceImpl.lo `test -f 'SubServiceImpl.cc' || echo '$(srcdir)/'`SubServiceImpl.cc
+
+libzod_la-PushServiceImpl.lo: PushServiceImpl.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libzod_la-PushServiceImpl.lo -MD -MP -MF $(DEPDIR)/libzod_la-PushServiceImpl.Tpo -c -o libzod_la-PushServiceImpl.lo `test -f 'PushServiceImpl.cc' || echo '$(srcdir)/'`PushServiceImpl.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libzod_la-PushServiceImpl.Tpo $(DEPDIR)/libzod_la-PushServiceImpl.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='PushServiceImpl.cc' object='libzod_la-PushServiceImpl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libzod_la-PushServiceImpl.lo `test -f 'PushServiceImpl.cc' || echo '$(srcdir)/'`PushServiceImpl.cc
+
+libzod_la-PullServiceImpl.lo: PullServiceImpl.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libzod_la-PullServiceImpl.lo -MD -MP -MF $(DEPDIR)/libzod_la-PullServiceImpl.Tpo -c -o libzod_la-PullServiceImpl.lo `test -f 'PullServiceImpl.cc' || echo '$(srcdir)/'`PullServiceImpl.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libzod_la-PullServiceImpl.Tpo $(DEPDIR)/libzod_la-PullServiceImpl.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='PullServiceImpl.cc' object='libzod_la-PullServiceImpl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libzod_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libzod_la-PullServiceImpl.lo `test -f 'PullServiceImpl.cc' || echo '$(srcdir)/'`PullServiceImpl.cc
 
 mostlyclean-libtool:
 	-rm -f *.lo

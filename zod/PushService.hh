@@ -1,5 +1,5 @@
-#ifndef ZOD_PUBSERVICE_HH
-#define ZOD_PUBSERVICE_HH
+#ifndef ZOD_PUSHSERVICE_HH
+#define ZOD_PUSHSERVICE_HH
 
 #include <string>
 #include "zod/ZodDef.hh"
@@ -7,18 +7,18 @@
 namespace zod
 {
 
-class PubService
+class PushService
 {
  public:
 
-  virtual ~PubService() {
+  virtual ~PushService() {
   }
 
   virtual void sendMsg(const std::string&) = 0;
 
   virtual void sendMsg(const void*, unsigned int) = 0;
 
-  static PubService* create(const std::string& addr, ServiceType type=BIND);
+  static PushService* create(const std::string& addr, ServiceType type=BIND);
   
 };
 

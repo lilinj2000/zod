@@ -2,11 +2,12 @@
 #define ZOD_PUBSERVICE_IMPL_HH
 
 #include "zod/PubService.hh"
+#include "Service.hh"
 
 namespace zod
 {
 
-class PubServiceImpl : public PubService
+class PubServiceImpl : public PubService, public Service
 {
  public:
   PubServiceImpl(ServiceType type, const std::string& addr);
@@ -15,14 +16,9 @@ class PubServiceImpl : public PubService
 
   virtual void sendMsg(const std::string&);
 
-  virtual void sendMsg(void*, unsigned int);
+  virtual void sendMsg(const void*, unsigned int);
   
  private:
-
-  std::string addr_;
-
-  void* context_;
-  void* pub_;
 
 };
 
