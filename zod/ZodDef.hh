@@ -16,7 +16,7 @@ typedef enum
 class Msg
 {
  public:
-  Msg(void* data, unsigned int len):
+  Msg(const void* data, unsigned int len):
       len_(len)
   {
     data_.reset( new unsigned char[len_] );

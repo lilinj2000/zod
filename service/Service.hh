@@ -25,8 +25,8 @@ class Service
  protected:
 
   void send(const void* msg, unsigned int len);
-  
-  void * createSock(SockType sock_type);
+
+  void* createSock(SockType sock_type);
 
   void stop();
 
