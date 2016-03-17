@@ -97,7 +97,9 @@ AC_SUBST(SOIL_LIBADD)
 AC_OUTPUT([
 	Makefile
 	zod/Makefile
-	forwarder/Makefile])
+	forwarder/Makefile
+	streamer/Makefile
+	bus/Makefile])
 
 
 

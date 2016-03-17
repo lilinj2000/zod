@@ -15359,7 +15359,7 @@ SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 
 
 
-ac_config_files="$ac_config_files Makefile zod/Makefile forwarder/Makefile"
+ac_config_files="$ac_config_files Makefile zod/Makefile forwarder/Makefile streamer/Makefile bus/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16486,6 +16486,8 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "zod/Makefile") CONFIG_FILES="$CONFIG_FILES zod/Makefile" ;;
     "forwarder/Makefile") CONFIG_FILES="$CONFIG_FILES forwarder/Makefile" ;;
+    "streamer/Makefile") CONFIG_FILES="$CONFIG_FILES streamer/Makefile" ;;
+    "bus/Makefile") CONFIG_FILES="$CONFIG_FILES bus/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
