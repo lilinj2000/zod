@@ -1,16 +1,16 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef ZOD_PUBSERVICE_HH
 #define ZOD_PUBSERVICE_HH
 
 #include <string>
 #include "zod/ZodDef.hh"
 
-namespace zod
-{
+namespace zod {
 
-class PubService
-{
+class PubService {
  public:
-
   virtual ~PubService() {
   }
 
@@ -18,11 +18,9 @@ class PubService
 
   virtual void sendMsg(const void*, unsigned int) = 0;
 
-  static PubService* create(const std::string& addr, ServiceType type=BIND);
-  
+  static PubService* create(const std::string& addr, ServiceType type = BIND);
 };
 
-
-};
+};  // namespace zod
 
 #endif

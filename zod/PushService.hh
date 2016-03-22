@@ -1,16 +1,16 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef ZOD_PUSHSERVICE_HH
 #define ZOD_PUSHSERVICE_HH
 
 #include <string>
 #include "zod/ZodDef.hh"
 
-namespace zod
-{
+namespace zod {
 
-class PushService
-{
+class PushService {
  public:
-
   virtual ~PushService() {
   }
 
@@ -18,11 +18,9 @@ class PushService
 
   virtual void sendMsg(const void*, unsigned int) = 0;
 
-  static PushService* create(const std::string& addr, ServiceType type=BIND);
-  
+  static PushService* create(const std::string& addr, ServiceType type = BIND);
 };
 
-
-};
+};  // namespace zod
 
 #endif

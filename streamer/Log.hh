@@ -1,3 +1,6 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef STREAMER_LOG_HH
 #define STREAMER_LOG_HH
 
