@@ -1,15 +1,16 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef ZOD_SUBSERVICE_IMPL_HH
 #define ZOD_SUBSERVICE_IMPL_HH
 
+#include <string>
 #include "zod/SubService.hh"
 #include "RecvService.hh"
 
+namespace zod {
 
-namespace zod
-{
-
-class SubServiceImpl : public SubService, public RecvService
-{
+class SubServiceImpl : public SubService, public RecvService {
  public:
   SubServiceImpl(const std::string& addr, MsgCallback* callback);
 
@@ -17,6 +18,6 @@ class SubServiceImpl : public SubService, public RecvService
 };
 
 
-};
+};  // namespace zod
 
 #endif

@@ -1,3 +1,6 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef FORWARDER_LOG_HH
 #define FORWARDER_LOG_HH
 
@@ -13,7 +16,6 @@
 #define FORWARDER_FATAL SOIL_FATAL
 #define FORWARDER_PDU SOIL_PDU
 #define FORWARDER_CUSTOM SOIL_CUSTOM
-
 
 #endif
 

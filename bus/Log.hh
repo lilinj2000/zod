@@ -1,3 +1,6 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef BUS_LOG_HH
 #define BUS_LOG_HH
 

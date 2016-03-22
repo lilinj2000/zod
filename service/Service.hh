@@ -1,29 +1,29 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef ZOD_SERVICE_HH
 #define ZOD_SERVICE_HH
 
 #include <string>
 #include "zod/ZodDef.hh"
 
-namespace zod
-{
+namespace zod {
 
-typedef enum
-{
+typedef enum {
   PUB_SOCK,
   SUB_SOCK,
   PUSH_SOCK,
   PULL_SOCK
 }SockType;
 
-class Service
-{
+class Service {
  public:
-  Service(SockType sock_type, ServiceType service_type, const std::string& addr);
+  Service(SockType sock_type, ServiceType service_type,
+          const std::string& addr);
 
   virtual ~Service();
 
  protected:
-
   void send(const void* msg, unsigned int len);
 
   void* createSock(SockType sock_type);
@@ -33,10 +33,9 @@ class Service
   std::string addr_;
 
   void* context_;
-  
   void* sock_;
 };
 
-};
+};  // namespace zod
 
 #endif

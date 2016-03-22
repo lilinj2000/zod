@@ -1,3 +1,6 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef ZOD_LOG_HH
 #define ZOD_LOG_HH
 
