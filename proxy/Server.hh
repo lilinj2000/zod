@@ -1,10 +1,12 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#ifndef FORWARDER_SERVER_HH
-#define FORWARDER_SERVER_HH
+#ifndef PROXY_SERVER_HH
+#define PROXY_SERVER_HH
 
-namespace forwarder {
+#include "czmq.h"
+
+namespace proxy {
 
 class Options;
 
@@ -15,13 +17,13 @@ class Server {
   virtual ~Server();
 
  private:
+  void initProxy(int type);
+  
   Options* options_;
 
-  void* context_;
-  void* xsub_;
-  void* xpub_;
+  zactor_t* proxy_;
 };
 
-};  // namespace forwarder
+};  // namespace proxy
 
 #endif

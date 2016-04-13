@@ -80,8 +80,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = bus$(EXEEXT)
-subdir = bus
+bin_PROGRAMS = proxy$(EXEEXT)
+subdir = proxy
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp $(noinst_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -94,21 +94,21 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(busdir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(proxydir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_bus_OBJECTS = bus-Config.$(OBJEXT) bus-Server.$(OBJEXT) \
-	bus-Main.$(OBJEXT)
-bus_OBJECTS = $(am_bus_OBJECTS)
+am_proxy_OBJECTS = proxy-Config.$(OBJEXT) proxy-Server.$(OBJEXT) \
+	proxy-Main.$(OBJEXT)
+proxy_OBJECTS = $(am_proxy_OBJECTS)
 am__DEPENDENCIES_1 =
-bus_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+proxy_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-bus_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+proxy_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(bus_LDFLAGS) $(LDFLAGS) -o $@
+	$(CXXFLAGS) $(proxy_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -143,8 +143,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(bus_SOURCES)
-DIST_SOURCES = $(bus_SOURCES)
+SOURCES = $(proxy_SOURCES)
+DIST_SOURCES = $(proxy_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -177,7 +177,7 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-DATA = $(bus_DATA)
+DATA = $(proxy_DATA)
 HEADERS = $(noinst_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
@@ -220,6 +220,9 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
+CZMQ_CPPFLAGS = @CZMQ_CPPFLAGS@
+CZMQ_HOME = @CZMQ_HOME@
+CZMQ_LIBADD = @CZMQ_LIBADD@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -278,7 +281,6 @@ STRIP = @STRIP@
 VERSION = @VERSION@
 ZMQ_CPPFLAGS = @ZMQ_CPPFLAGS@
 ZMQ_HOME = @ZMQ_HOME@
-ZMQ_LIBADD = @ZMQ_LIBADD@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -333,28 +335,29 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-bus_SOURCES = \
+proxy_SOURCES = \
 	Config.cc \
 	Server.cc \
 	Main.cc
 
-bus_CPPFLAGS = \
+proxy_CPPFLAGS = \
 		$(BOOST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
-		$(ZMQ_CPPFLAGS)
+		$(ZMQ_CPPFLAGS) \
+		$(CZMQ_CPPFLAGS)
 
-bus_LDADD = \
+proxy_LDADD = \
 	$(BOOST_LIBADD) \
 	$(SOIL_LIBADD) \
-	$(ZMQ_LIBADD)
+	$(CZMQ_LIBADD)
 
-bus_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
+proxy_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
 # header files
 noinst_HEADERS = Config.hh Log.hh Server.hh 
-EXTRA_DIST = env.sh bus.cfg log.cfg
-busdir = $(bindir)
-bus_DATA = $(EXTRA_DIST)
+EXTRA_DIST = env.sh proxy.cfg log.cfg
+proxydir = $(bindir)
+proxy_DATA = $(EXTRA_DIST)
 all: all-am
 
 .SUFFIXES:
@@ -368,9 +371,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign bus/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign proxy/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign bus/Makefile
+	  $(AUTOMAKE) --foreign proxy/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -439,9 +442,9 @@ clean-binPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-bus$(EXEEXT): $(bus_OBJECTS) $(bus_DEPENDENCIES) $(EXTRA_bus_DEPENDENCIES) 
-	@rm -f bus$(EXEEXT)
-	$(AM_V_CXXLD)$(bus_LINK) $(bus_OBJECTS) $(bus_LDADD) $(LIBS)
+proxy$(EXEEXT): $(proxy_OBJECTS) $(proxy_DEPENDENCIES) $(EXTRA_proxy_DEPENDENCIES) 
+	@rm -f proxy$(EXEEXT)
+	$(AM_V_CXXLD)$(proxy_LINK) $(proxy_OBJECTS) $(proxy_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -449,9 +452,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bus-Config.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bus-Main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bus-Server.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proxy-Config.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proxy-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proxy-Server.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -474,74 +477,74 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-bus-Config.o: Config.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bus-Config.o -MD -MP -MF $(DEPDIR)/bus-Config.Tpo -c -o bus-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bus-Config.Tpo $(DEPDIR)/bus-Config.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='bus-Config.o' libtool=no @AMDEPBACKSLASH@
+proxy-Config.o: Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Config.o -MD -MP -MF $(DEPDIR)/proxy-Config.Tpo -c -o proxy-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Config.Tpo $(DEPDIR)/proxy-Config.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='proxy-Config.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bus-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
 
-bus-Config.obj: Config.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bus-Config.obj -MD -MP -MF $(DEPDIR)/bus-Config.Tpo -c -o bus-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bus-Config.Tpo $(DEPDIR)/bus-Config.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='bus-Config.obj' libtool=no @AMDEPBACKSLASH@
+proxy-Config.obj: Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Config.obj -MD -MP -MF $(DEPDIR)/proxy-Config.Tpo -c -o proxy-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Config.Tpo $(DEPDIR)/proxy-Config.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='proxy-Config.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bus-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
 
-bus-Server.o: Server.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bus-Server.o -MD -MP -MF $(DEPDIR)/bus-Server.Tpo -c -o bus-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bus-Server.Tpo $(DEPDIR)/bus-Server.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='bus-Server.o' libtool=no @AMDEPBACKSLASH@
+proxy-Server.o: Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Server.o -MD -MP -MF $(DEPDIR)/proxy-Server.Tpo -c -o proxy-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Server.Tpo $(DEPDIR)/proxy-Server.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='proxy-Server.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bus-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
 
-bus-Server.obj: Server.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bus-Server.obj -MD -MP -MF $(DEPDIR)/bus-Server.Tpo -c -o bus-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bus-Server.Tpo $(DEPDIR)/bus-Server.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='bus-Server.obj' libtool=no @AMDEPBACKSLASH@
+proxy-Server.obj: Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Server.obj -MD -MP -MF $(DEPDIR)/proxy-Server.Tpo -c -o proxy-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Server.Tpo $(DEPDIR)/proxy-Server.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='proxy-Server.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bus-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
 
-bus-Main.o: Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bus-Main.o -MD -MP -MF $(DEPDIR)/bus-Main.Tpo -c -o bus-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bus-Main.Tpo $(DEPDIR)/bus-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='bus-Main.o' libtool=no @AMDEPBACKSLASH@
+proxy-Main.o: Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Main.o -MD -MP -MF $(DEPDIR)/proxy-Main.Tpo -c -o proxy-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Main.Tpo $(DEPDIR)/proxy-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='proxy-Main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bus-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
 
-bus-Main.obj: Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bus-Main.obj -MD -MP -MF $(DEPDIR)/bus-Main.Tpo -c -o bus-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bus-Main.Tpo $(DEPDIR)/bus-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='bus-Main.obj' libtool=no @AMDEPBACKSLASH@
+proxy-Main.obj: Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT proxy-Main.obj -MD -MP -MF $(DEPDIR)/proxy-Main.Tpo -c -o proxy-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/proxy-Main.Tpo $(DEPDIR)/proxy-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='proxy-Main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(bus_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bus-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(proxy_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o proxy-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-busDATA: $(bus_DATA)
+install-proxyDATA: $(proxy_DATA)
 	@$(NORMAL_INSTALL)
-	@list='$(bus_DATA)'; test -n "$(busdir)" || list=; \
+	@list='$(proxy_DATA)'; test -n "$(proxydir)" || list=; \
 	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(busdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(busdir)" || exit 1; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(proxydir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(proxydir)" || exit 1; \
 	fi; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(busdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(busdir)" || exit $$?; \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(proxydir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(proxydir)" || exit $$?; \
 	done
 
-uninstall-busDATA:
+uninstall-proxyDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(bus_DATA)'; test -n "$(busdir)" || list=; \
+	@list='$(proxy_DATA)'; test -n "$(proxydir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(busdir)'; $(am__uninstall_files_from_dir)
+	dir='$(DESTDIR)$(proxydir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -629,7 +632,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(busdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(proxydir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -684,7 +687,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-busDATA
+install-data-am: install-proxyDATA
 
 install-dvi: install-dvi-am
 
@@ -730,7 +733,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-busDATA
+uninstall-am: uninstall-binPROGRAMS uninstall-proxyDATA
 
 .MAKE: install-am install-strip
 
@@ -739,15 +742,15 @@ uninstall-am: uninstall-binPROGRAMS uninstall-busDATA
 	ctags ctags-am distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-binPROGRAMS \
-	install-busDATA install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-proxyDATA install-ps install-ps-am \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-busDATA
+	uninstall-binPROGRAMS uninstall-proxyDATA
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

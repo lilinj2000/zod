@@ -7,19 +7,22 @@
 #include "Config.hh"
 #include "Log.hh"
 
-namespace forwarder {
+namespace proxy {
 
 Options::Options():
-    config_options_("ForwarderOptions") {
+    config_options_("ProxyOptions") {
   namespace po = boost::program_options;
 
   config_options_.add_options()
-      ("forwarder.xsub_addr", po::value<std::string>(&xsub_addr),
-       "xsub address")
-      ("forwarder.xpub_addr", po::value<std::string>(&xpub_addr),
-       "xpub address")
+      ("proxy.type", po::value<int>(&type),
+       "type")
 
-      ("forwarder.log_cfg", po::value<std::string>(&log_cfg),
+      ("proxy.front_addr", po::value<std::string>(&front_addr),
+       "front address")
+      ("proxy.backend_addr", po::value<std::string>(&backend_addr),
+       "backend address")
+
+      ("proxy.log_cfg", po::value<std::string>(&log_cfg),
          "log config file");
   return;
 }
@@ -37,11 +40,11 @@ Config::Config(int argc, char* argv[]) {
   std::auto_ptr<soil::Config> config(soil::Config::create());
   config->registerOptions(options_.get());
 
-  config->configFile() = "forwarder.cfg";
+  config->configFile() = "proxy.cfg";
   config->loadConfig(argc, argv);
 
   // init the log
-  FORWARDER_LOG_INIT(options_->log_cfg);
+  PROXY_LOG_INIT(options_->log_cfg);
 
   return;
 }
@@ -49,4 +52,4 @@ Config::Config(int argc, char* argv[]) {
 Config::~Config() {
 }
 
-};  // namespace forwarder
+};  // namespace proxy

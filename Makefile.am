@@ -1,5 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = zod forwarder streamer bus service
+SUBDIRS = zod proxy service
 
 EXTRA_DIST = deploy.sh

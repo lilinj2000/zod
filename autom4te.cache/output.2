@@ -642,7 +642,9 @@ SOIL_HOME
 BOOST_LIBADD
 BOOST_CPPFLAGS
 BOOST_HOME
-ZMQ_LIBADD
+CZMQ_LIBADD
+CZMQ_CPPFLAGS
+CZMQ_HOME
 ZMQ_CPPFLAGS
 ZMQ_HOME
 LT_AGE
@@ -782,6 +784,7 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 with_zmq
+with_czmq
 with_boost
 with_soil
 '
@@ -1437,6 +1440,7 @@ Optional Packages:
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
   --with-zmq              home path of the zmq, defaults to @S|@ZMQ_HOME
+  --with-czmq             home path of the czmq, defaults to @S|@CZMQ_HOME
   --with-boost            home path of the boost, defaults to @S|@home_3rd/boost
   --with-soil             home path of the soil, defaults to @S|@home_libs/soil
 
@@ -15296,14 +15300,6 @@ LT_AGE=0
 home_3rd=~/3rd
 home_libs=~/libs
 
-if test -d /llj/3rd ; then
-   home_3rd=/llj/3rd
-fi
-
-if test -d /llj/libs ; then
-   home_libs=/llj/libs
-fi
-
 ZMQ_HOME=$home_3rd/libzmq
 
 @%:@ Check whether --with-zmq was given.
@@ -15316,7 +15312,21 @@ fi
 
 
 ZMQ_CPPFLAGS="-I$ZMQ_HOME/include"
-ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
+
+
+CZMQ_HOME=$home_3rd/czmq
+
+@%:@ Check whether --with-czmq was given.
+if test "${with_czmq+set}" = set; then :
+  withval=$with_czmq; CZMQ_HOME="$withval"
+else
+  CZMQ_HOME="$CZMQ_HOME"
+fi
+
+
+
+CZMQ_CPPFLAGS="-I$CZMQ_HOME/include"
+CZMQ_LIBADD="$CZMQ_HOME/lib/libczmq.la"
 
 
 
@@ -15359,7 +15369,7 @@ SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 
 
 
-ac_config_files="$ac_config_files Makefile zod/Makefile forwarder/Makefile streamer/Makefile bus/Makefile service/Makefile"
+ac_config_files="$ac_config_files Makefile zod/Makefile proxy/Makefile service/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16485,9 +16495,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "zod/Makefile") CONFIG_FILES="$CONFIG_FILES zod/Makefile" ;;
-    "forwarder/Makefile") CONFIG_FILES="$CONFIG_FILES forwarder/Makefile" ;;
-    "streamer/Makefile") CONFIG_FILES="$CONFIG_FILES streamer/Makefile" ;;
-    "bus/Makefile") CONFIG_FILES="$CONFIG_FILES bus/Makefile" ;;
+    "proxy/Makefile") CONFIG_FILES="$CONFIG_FILES proxy/Makefile" ;;
     "service/Makefile") CONFIG_FILES="$CONFIG_FILES service/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;

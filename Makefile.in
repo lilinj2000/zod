@@ -212,6 +212,9 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
+CZMQ_CPPFLAGS = @CZMQ_CPPFLAGS@
+CZMQ_HOME = @CZMQ_HOME@
+CZMQ_LIBADD = @CZMQ_LIBADD@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -270,7 +273,6 @@ STRIP = @STRIP@
 VERSION = @VERSION@
 ZMQ_CPPFLAGS = @ZMQ_CPPFLAGS@
 ZMQ_HOME = @ZMQ_HOME@
-ZMQ_LIBADD = @ZMQ_LIBADD@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -325,7 +327,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = zod forwarder streamer bus service
+SUBDIRS = zod proxy service
 EXTRA_DIST = deploy.sh
 all: all-recursive
 

@@ -37,14 +37,6 @@ AC_SUBST(LT_AGE)
 home_3rd=~/3rd
 home_libs=~/libs
 
-if test -d /llj/3rd ; then
-   home_3rd=/llj/3rd
-fi
-
-if test -d /llj/libs ; then
-   home_libs=/llj/libs
-fi
-
 dnl libzmq lib
 ZMQ_HOME=$home_3rd/libzmq
 AC_ARG_WITH([zmq], 
@@ -55,9 +47,23 @@ AC_ARG_WITH([zmq],
 AC_SUBST([ZMQ_HOME])
 
 ZMQ_CPPFLAGS="-I$ZMQ_HOME/include"
-ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
+dnl ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
 AC_SUBST(ZMQ_CPPFLAGS)
-AC_SUBST(ZMQ_LIBADD)
+dnl AC_SUBST(ZMQ_LIBADD)
+
+dnl czmq
+CZMQ_HOME=$home_3rd/czmq
+AC_ARG_WITH([czmq], 
+    [AS_HELP_STRING([--with-czmq],
+        [home path of the czmq, defaults to $CZMQ_HOME])],
+    [CZMQ_HOME="$withval"],
+    [CZMQ_HOME="$CZMQ_HOME"])
+AC_SUBST([CZMQ_HOME])
+
+CZMQ_CPPFLAGS="-I$CZMQ_HOME/include"
+CZMQ_LIBADD="$CZMQ_HOME/lib/libczmq.la"
+AC_SUBST(CZMQ_CPPFLAGS)
+AC_SUBST(CZMQ_LIBADD)
 
 dnl boost lib
 AC_ARG_WITH([boost],
@@ -97,9 +103,7 @@ AC_SUBST(SOIL_LIBADD)
 AC_OUTPUT([
 	Makefile
 	zod/Makefile
-	forwarder/Makefile
-	streamer/Makefile
-	bus/Makefile
+	proxy/Makefile
 	service/Makefile])
 
 

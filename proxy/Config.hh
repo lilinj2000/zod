@@ -1,26 +1,28 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#ifndef BUS_CONFIG_HH
-#define BUS_CONFIG_HH
+#ifndef PROXY_CONFIG_HH
+#define PROXY_CONFIG_HH
 
 #include <string>
 #include <memory>
 #include "soil/Config.hh"
 
-namespace bus {
+namespace proxy {
+
 namespace po = boost::program_options;
 
 class Options : public soil::Options {
  public:
   Options();
+
   virtual ~Options();
 
   virtual po::options_description* configOptions();
 
-  std::string router_addr;
-
-  std::string dealer_addr;
+  int type;
+  std::string front_addr;
+  std::string backend_addr;
   std::string log_cfg;
 
  private:
@@ -40,7 +42,6 @@ class Config {
   std::unique_ptr<Options> options_;
 };
 
-}  // namespace bus
-
+}  // namespace proxy
 
 #endif
