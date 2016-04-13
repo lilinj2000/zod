@@ -6,8 +6,8 @@
 
 namespace zod {
 
-PubServiceImpl::PubServiceImpl(ServiceType type, const std::string& addr):
-    Service(PUB_SOCK, type, addr) {
+PubServiceImpl::PubServiceImpl(const std::string& addr):
+    Service(PUB_SOCK, addr) {
   ZOD_TRACE <<"PubServiceImpl::PubServiceImpl()";
 }
 
@@ -18,17 +18,17 @@ PubServiceImpl::~PubServiceImpl() {
 void PubServiceImpl::sendMsg(const std::string& msg) {
   ZOD_TRACE <<"PubServiceImpl::sendMsg()";
 
-  send(msg.data(), msg.length()+1);
+  send(msg);
 }
 
-void PubServiceImpl::sendMsg(const void* msg, unsigned int len) {
+void PubServiceImpl::sendMsg(const void* msg, size_t len) {
   ZOD_TRACE <<"PubServiceImpl::sendMsg()";
 
   send(msg, len);
 }
 
-PubService* PubService::create(const std::string& addr, ServiceType type){
-  return new PubServiceImpl(type, addr);
+PubService* PubService::create(const std::string& addr){
+  return new PubServiceImpl(addr);
 }
 
 };  // namespace zod

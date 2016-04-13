@@ -47,9 +47,9 @@ AC_ARG_WITH([zmq],
 AC_SUBST([ZMQ_HOME])
 
 ZMQ_CPPFLAGS="-I$ZMQ_HOME/include"
-dnl ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
+ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
 AC_SUBST(ZMQ_CPPFLAGS)
-dnl AC_SUBST(ZMQ_LIBADD)
+AC_SUBST(ZMQ_LIBADD)
 
 dnl czmq
 CZMQ_HOME=$home_3rd/czmq

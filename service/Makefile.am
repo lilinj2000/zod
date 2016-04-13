@@ -12,12 +12,13 @@ libzod_la_SOURCES = \
 libzod_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
 			$(SOIL_CPPFLAGS) \
-			$(ZMQ_CPPFLAGS)
+			$(ZMQ_CPPFLAGS) \
+			$(CZMQ_CPPFLAGS)
 
 libzod_la_LIBADD = \
 		$(BOOST_LIBADD) \
 		$(SOIL_LIBADD) \
-		$(ZMQ_LIBADD)
+		$(CZMQ_LIBADD)
 
 libzod_la_LDFLAGS = \
 	-no-undefined -version-info \

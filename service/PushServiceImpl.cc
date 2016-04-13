@@ -6,8 +6,8 @@
 
 namespace zod {
 
-PushServiceImpl::PushServiceImpl(ServiceType type, const std::string& addr):
-    Service(PUSH_SOCK, type, addr) {
+PushServiceImpl::PushServiceImpl(const std::string& addr):
+    Service(PUSH_SOCK, addr) {
   ZOD_TRACE <<"PushServiceImpl::PushServiceImpl()";
 }
 
@@ -18,17 +18,17 @@ PushServiceImpl::~PushServiceImpl() {
 void PushServiceImpl::sendMsg(const std::string& msg) {
   ZOD_TRACE <<"PushServiceImpl::sendMsg()";
 
-  send(msg.data(), msg.length()+1);
+  send(msg);
 }
 
-void PushServiceImpl::sendMsg(const void* msg, unsigned int len) {
+void PushServiceImpl::sendMsg(const void* msg, size_t len) {
   ZOD_TRACE <<"PushServiceImpl::sendMsg()";
 
   send(msg, len);
 }
 
-PushService* PushService::create(const std::string& addr, ServiceType type) {
-  return new PushServiceImpl(type, addr);
+PushService* PushService::create(const std::string& addr) {
+  return new PushServiceImpl(addr);
 }
 
 };  // namespace zod

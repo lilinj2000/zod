@@ -7,6 +7,7 @@
 #include <thread>
 #include <string>
 #include "Service.hh"
+#include "zod/ZodDef.hh"
 #include "soil/MsgQueue.hh"
 
 namespace zod {

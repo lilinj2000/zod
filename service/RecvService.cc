@@ -1,7 +1,7 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#include <zmq.h>
+#include "czmq.h"
 #include "RecvService.hh"
 #include "Log.hh"
 
@@ -9,19 +9,12 @@ namespace zod {
 
 RecvService::RecvService(SockType sock_type, const std::string& addr,
                            MsgCallback* callback):
-    Service(sock_type, CONNECT, addr),
+    Service(sock_type, addr),
     callback_(callback),
     is_run_(false) {
   ZOD_TRACE <<"RecvService::RecvService()";
 
   msg_queue_.reset(new soil::MsgQueue<Msg, MsgCallback>(callback_));
-
-  if ( sock_type == SUB_SOCK ) {
-    if ( zmq_setsockopt(sock_, ZMQ_SUBSCRIBE, "", 0) < 0 ) {
-      std::string err = "set subscribe options failed.\n";
-      throw std::runtime_error(err+zmq_strerror(zmq_errno()));
-    }
-  }
 
   is_run_ = true;
   recv_thread_.reset(new std::thread(&RecvService::run, this));
@@ -42,19 +35,22 @@ void RecvService::run() {
   ZOD_TRACE <<"RecvService::run()";
 
   while (is_run_) {
-    zmq_msg_t msg;
-    zmq_msg_init(&msg);
-
-    if ( zmq_msg_recv(&msg, sock_, 0) < 0 ) {
+    zmsg_t* zmsg = zmsg_recv(sock_);
+    if (nullptr == zmsg) {
       ZOD_ERROR <<"recv msg failed.\n"
                  <<zmq_strerror(zmq_errno());
     } else {
-      std::unique_ptr<Msg> data(new Msg(zmq_msg_data(&msg),
-                                          zmq_msg_size(&msg)));
-      msg_queue_->pushMsg(data.release());
-    }
+      zframe_t* frame = zmsg_pop(zmsg);
 
-    zmq_msg_close(&msg);
+      if (frame) {
+        std::unique_ptr<Msg> data(new Msg(zframe_data(frame),
+                                          zframe_size(frame)));
+        msg_queue_->pushMsg(data.release());
+
+        zframe_destroy(&frame);
+      }
+      zmsg_destroy(&zmsg);
+    }
   }
 
   ZOD_DEBUG <<"RecvServiceImpl::run()  done.";

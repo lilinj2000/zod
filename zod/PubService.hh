@@ -16,9 +16,9 @@ class PubService {
 
   virtual void sendMsg(const std::string&) = 0;
 
-  virtual void sendMsg(const void*, unsigned int) = 0;
+  virtual void sendMsg(const void*, size_t) = 0;
 
-  static PubService* create(const std::string& addr, ServiceType type = BIND);
+  static PubService* create(const std::string& addr);
 };
 
 };  // namespace zod

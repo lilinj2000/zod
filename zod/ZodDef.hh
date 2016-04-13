@@ -9,11 +9,6 @@
 
 namespace zod {
 
-typedef enum {
-  BIND,
-  CONNECT
-}ServiceType;
-
 class Msg {
  public:
   Msg(const void* data, unsigned int len):

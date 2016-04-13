@@ -225,6 +225,7 @@ STRIP = @STRIP@
 VERSION = @VERSION@
 ZMQ_CPPFLAGS = @ZMQ_CPPFLAGS@
 ZMQ_HOME = @ZMQ_HOME@
+ZMQ_LIBADD = @ZMQ_LIBADD@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@

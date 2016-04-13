@@ -1,45 +1,19 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#include <zmq.h>
 #include "Service.hh"
 #include "Log.hh"
 
 namespace zod {
 
-Service::Service(SockType sock_type, ServiceType service_type,
+Service::Service(SockType sock_type,
                    const std::string& addr):
     addr_(addr),
-    context_(nullptr),
     sock_(nullptr) {
   ZOD_TRACE <<"Service::Service()";
 
-  context_ = zmq_ctx_new();
-  assert(context_);
-
-  sock_ = createSock(sock_type);
+  sock_ = createSock(sock_type, addr_);
   assert(sock_);
-
-  ZOD_INFO <<"addr: " <<addr_;
-
-  switch (service_type) {
-    case BIND:
-      if ( zmq_bind(sock_, addr_.data()) < 0 ) {
-        std::string err = "bind error.\n";
-        throw std::runtime_error(err+zmq_strerror(zmq_errno()));
-      }
-      break;
-
-    case CONNECT:
-      if ( zmq_connect(sock_, addr_.data()) < 0 ) {
-        std::string err = "connect error.\n";
-        throw std::runtime_error(err+zmq_strerror(zmq_errno()));
-      }
-      break;
-
-    default:
-      throw std::runtime_error("unsupported service type.");
-  }
 }
 
 Service::~Service() {
@@ -48,18 +22,25 @@ Service::~Service() {
   stop();
 }
 
-void Service::send(const void* msg, unsigned int len) {
+void Service::send(const void* msg, size_t len) {
   ZOD_TRACE <<"Service::send()";
 
-  zmq_msg_t zmq_msg;
-  zmq_msg_init_size(&zmq_msg, len);
+  zmsg_t* zmsg = zmsg_new();
+  zmsg_addmem(zmsg, msg, len);
+  
+  if (zmsg_send(&zmsg, sock_) < 0) {
+    ZOD_ERROR <<"msg send failed.\n"
+              <<zmq_strerror(zmq_errno());
+  }
+}
 
-  memset(zmq_msg_data(&zmq_msg), 0x0, len);
-  memcpy(zmq_msg_data(&zmq_msg), msg, len);
+void Service::send(const std::string& msg) {
+  ZOD_TRACE <<"Service::send()";
 
-  if ( zmq_msg_send(&zmq_msg, sock_, 0) < 0 ) {
-    zmq_msg_close(&zmq_msg);
+  zmsg_t* zmsg = zmsg_new();
+  zmsg_addstr(zmsg, msg.data());
 
+  if (zmsg_send(&zmsg, sock_) < 0) {
     ZOD_ERROR <<"msg send failed.\n"
               <<zmq_strerror(zmq_errno());
   }
@@ -69,33 +50,29 @@ void Service::stop() {
   ZOD_TRACE <<"Service::stop()";
 
   if ( sock_ )
-    zmq_close(sock_);
-
-  if ( context_ )
-    zmq_ctx_destroy(context_);
+    zsock_destroy(&sock_);
 
   sock_ = nullptr;
-  context_ = nullptr;
 }
 
-void* Service::createSock(SockType sock_type) {
-  void* sock = nullptr;
+zsock_t* Service::createSock(SockType sock_type, const std::string& addr) {
+  zsock_t* sock = nullptr;
 
   switch ( sock_type ) {
     case PUB_SOCK:
-      sock = zmq_socket(context_, ZMQ_PUB);
+      sock = zsock_new_pub(addr.data());
       break;
 
     case SUB_SOCK:
-      sock = zmq_socket(context_, ZMQ_SUB);
+      sock = zsock_new_sub(addr.data(), "");
       break;
 
     case PUSH_SOCK:
-      sock = zmq_socket(context_, ZMQ_PUSH);
+      sock = zsock_new_push(addr.data());
       break;
 
     case PULL_SOCK:
-      sock = zmq_socket(context_, ZMQ_PULL);
+      sock = zsock_new_pull(addr.data());
       break;
   }
 

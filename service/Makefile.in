@@ -122,7 +122,8 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libzod_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+libzod_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_libzod_la_OBJECTS = libzod_la-Service.lo libzod_la-RecvService.lo \
 	libzod_la-PubServiceImpl.lo libzod_la-SubServiceImpl.lo \
 	libzod_la-PushServiceImpl.lo libzod_la-PullServiceImpl.lo
@@ -278,6 +279,7 @@ STRIP = @STRIP@
 VERSION = @VERSION@
 ZMQ_CPPFLAGS = @ZMQ_CPPFLAGS@
 ZMQ_HOME = @ZMQ_HOME@
+ZMQ_LIBADD = @ZMQ_LIBADD@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -344,12 +346,13 @@ libzod_la_SOURCES = \
 libzod_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
 			$(SOIL_CPPFLAGS) \
-			$(ZMQ_CPPFLAGS)
+			$(ZMQ_CPPFLAGS) \
+			$(CZMQ_CPPFLAGS)
 
 libzod_la_LIBADD = \
 		$(BOOST_LIBADD) \
 		$(SOIL_LIBADD) \
-		$(ZMQ_LIBADD)
+		$(CZMQ_LIBADD)
 
 libzod_la_LDFLAGS = \
 	-no-undefined -version-info \

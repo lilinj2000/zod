@@ -5,7 +5,7 @@
 #define ZOD_SERVICE_HH
 
 #include <string>
-#include "zod/ZodDef.hh"
+#include "czmq.h"
 
 namespace zod {
 
@@ -18,22 +18,23 @@ typedef enum {
 
 class Service {
  public:
-  Service(SockType sock_type, ServiceType service_type,
+  Service(SockType sock_type,
           const std::string& addr);
 
   virtual ~Service();
 
  protected:
-  void send(const void* msg, unsigned int len);
+  void send(const void* msg, size_t len);
 
-  void* createSock(SockType sock_type);
+  void send(const std::string& msg);
+
+  zsock_t* createSock(SockType sock_type, const std::string& addr);
 
   void stop();
 
   std::string addr_;
 
-  void* context_;
-  void* sock_;
+  zsock_t* sock_;
 };
 
 };  // namespace zod

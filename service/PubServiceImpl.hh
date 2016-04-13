@@ -12,13 +12,13 @@ namespace zod {
 
 class PubServiceImpl : public PubService, public Service {
  public:
-  PubServiceImpl(ServiceType type, const std::string& addr);
+  PubServiceImpl(const std::string& addr);
 
   virtual ~PubServiceImpl();
 
   virtual void sendMsg(const std::string&);
 
-  virtual void sendMsg(const void*, unsigned int);
+  virtual void sendMsg(const void*, size_t);
 };
 
 };  // namespace zod
