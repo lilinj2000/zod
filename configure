@@ -636,6 +636,17 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+COVERAGE_LDFLAGS
+COVERAGE_CXXFLAGS
+COVERAGE_CFLAGS
+GENHTML
+LCOV
+SHTOOL
+HAVE_GCOV_FALSE
+HAVE_GCOV_TRUE
+GTEST_LIBADD
+GTEST_CPPFLAGS
+GTEST_HOME
 SOIL_LIBADD
 SOIL_CPPFLAGS
 SOIL_HOME
@@ -652,6 +663,7 @@ LT_AGE
 LT_REVISION
 LT_CURRENT
 LT_RELEASE
+GCOV
 HAVE_CXX11
 CXXCPP
 CPP
@@ -788,6 +800,8 @@ with_zmq
 with_czmq
 with_boost
 with_soil
+with_gtest
+enable_gcov
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1431,6 +1445,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-gcov           enable coverage testing with gcov
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1444,6 +1459,8 @@ Optional Packages:
   --with-czmq             home path of the czmq, defaults to $CZMQ_HOME
   --with-boost            home path of the boost, defaults to $home_3rd/boost
   --with-soil             home path of the soil, defaults to $home_libs/soil
+  --with-gtest            home path of the gtest, defaults to
+                          $home_3rd/googletest
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -15288,6 +15305,50 @@ $as_echo "#define HAVE_CXX11 1" >>confdefs.h
   fi
 
 
+for ac_prog in gcov-mp-4.8 gcov
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_GCOV+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$GCOV"; then
+  ac_cv_prog_GCOV="$GCOV" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_GCOV="$ac_prog"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+GCOV=$ac_cv_prog_GCOV
+if test -n "$GCOV"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GCOV" >&5
+$as_echo "$GCOV" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  test -n "$GCOV" && break
+done
+test -n "$GCOV" || GCOV="gcov"
+
+
 # Checks for library functions.
 LT_RELEASE=0.1
 LT_CURRENT=0
@@ -15372,7 +15433,228 @@ SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 
 
 
-ac_config_files="$ac_config_files Makefile zod/Makefile proxy/Makefile service/Makefile"
+# Check whether --with-gtest was given.
+if test "${with_gtest+set}" = set; then :
+  withval=$with_gtest; GTEST_HOME="$withval"
+else
+  GTEST_HOME="$home_3rd/googletest"
+fi
+
+
+
+GTEST_CPPFLAGS=-I$GTEST_HOME/include
+GTEST_LIBADD="$GTEST_HOME/lib/libgtest.a $GTEST_HOME/lib/libgtest_main.a"
+
+
+
+###########################
+# gcov coverage reporting
+###########################
+
+  # Check whether --enable-gcov was given.
+if test "${enable_gcov+set}" = set; then :
+  enableval=$enable_gcov; use_gcov=yes
+else
+  use_gcov=no
+fi
+
+
+   if test "x$use_gcov" = "xyes"; then
+  HAVE_GCOV_TRUE=
+  HAVE_GCOV_FALSE='#'
+else
+  HAVE_GCOV_TRUE='#'
+  HAVE_GCOV_FALSE=
+fi
+
+
+  if test "x$use_gcov" = "xyes"; then
+  # we need gcc:
+  if test "$GCC" != "yes"; then
+    as_fn_error $? "GCC is required for --enable-gcov" "$LINENO" 5
+  fi
+
+  # Check if ccache is being used
+  # Extract the first word of "shtool", so it can be a program name with args.
+set dummy shtool; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_SHTOOL+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$SHTOOL"; then
+  ac_cv_prog_SHTOOL="$SHTOOL" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_SHTOOL="shtool"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+SHTOOL=$ac_cv_prog_SHTOOL
+if test -n "$SHTOOL"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SHTOOL" >&5
+$as_echo "$SHTOOL" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test "$SHTOOL"; then
+    case `$SHTOOL path $CC` in #(
+  *ccache*) :
+    gcc_ccache=yes ;; #(
+  *) :
+    gcc_ccache=no ;;
+esac
+  fi
+
+  if test "$gcc_ccache" = "yes" && (test -z "$CCACHE_DISABLE" || test "$CCACHE_DISABLE" != "1"); then
+    as_fn_error $? "ccache must be disabled when --enable-gcov option is used. You can disable ccache by setting environment variable CCACHE_DISABLE=1." "$LINENO" 5
+  fi
+
+  lcov_version_list="1.0"
+  # Extract the first word of "lcov", so it can be a program name with args.
+set dummy lcov; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_LCOV+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$LCOV"; then
+  ac_cv_prog_LCOV="$LCOV" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_LCOV="lcov"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+LCOV=$ac_cv_prog_LCOV
+if test -n "$LCOV"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LCOV" >&5
+$as_echo "$LCOV" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  # Extract the first word of "genhtml", so it can be a program name with args.
+set dummy genhtml; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_GENHTML+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$GENHTML"; then
+  ac_cv_prog_GENHTML="$GENHTML" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_GENHTML="genhtml"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+GENHTML=$ac_cv_prog_GENHTML
+if test -n "$GENHTML"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GENHTML" >&5
+$as_echo "$GENHTML" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+
+  if test "$LCOV"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for lcov version" >&5
+$as_echo_n "checking for lcov version... " >&6; }
+if ${glib_cv_lcov_version+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+      glib_cv_lcov_version=invalid
+      lcov_version=`$LCOV -v 2>/dev/null | $SED -e 's/^.* //'`
+      for lcov_check_version in $lcov_version_list; do
+        if test "$lcov_version" = "$lcov_check_version"; then
+          glib_cv_lcov_version="$lcov_check_version (ok)"
+        fi
+      done
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $glib_cv_lcov_version" >&5
+$as_echo "$glib_cv_lcov_version" >&6; }
+  else
+    lcov_msg="To enable code coverage reporting you must have one of the following lcov versions installed: $lcov_version_list"
+    as_fn_error $? "$lcov_msg" "$LINENO" 5
+  fi
+
+  case $glib_cv_lcov_version in
+    ""|invalid)
+      lcov_msg="You must have one of the following versions of lcov: $lcov_version_list (found: $lcov_version)."
+      as_fn_error $? "$lcov_msg" "$LINENO" 5
+      LCOV="exit 0;"
+      ;;
+  esac
+
+  if test -z "$GENHTML"; then
+    as_fn_error $? "Could not find genhtml from the lcov package" "$LINENO" 5
+  fi
+
+  # Remove all optimization flags from CFLAGS
+
+  CFLAGS=`echo "$CFLAGS" | $SED -e 's/-O[0-9]*//g'`
+  CPPFLAGS=`echo "$CPPFLAGS" | $SED -e 's/-O[0-9]*//g'`
+
+
+  # Add the special gcc flags
+  COVERAGE_CFLAGS="--coverage -DDEBUG"
+  COVERAGE_CXXFLAGS="--coverage -DDEBUG"
+  COVERAGE_LDFLAGS="--coverage -lgcov"
+
+fi
+
+
+
+
+
+
+ac_config_files="$ac_config_files Makefile zod/Makefile proxy/Makefile service/Makefile utest/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -15545,6 +15827,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_GCOV_TRUE}" && test -z "${HAVE_GCOV_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_GCOV\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -16500,6 +16786,7 @@ do
     "zod/Makefile") CONFIG_FILES="$CONFIG_FILES zod/Makefile" ;;
     "proxy/Makefile") CONFIG_FILES="$CONFIG_FILES proxy/Makefile" ;;
     "service/Makefile") CONFIG_FILES="$CONFIG_FILES service/Makefile" ;;
+    "utest/Makefile") CONFIG_FILES="$CONFIG_FILES utest/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

@@ -24,6 +24,8 @@ AC_PROG_RANLIB
 
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 
+AC_CHECK_PROGS(GCOV, [gcov-mp-4.8 gcov], gcov)
+
 # Checks for library functions.
 LT_RELEASE=0.1
 LT_CURRENT=0
@@ -99,12 +101,34 @@ SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 AC_SUBST(SOIL_CPPFLAGS)
 AC_SUBST(SOIL_LIBADD)
 
+dnl gtest lib
+AC_ARG_WITH([gtest],
+    [AS_HELP_STRING([--with-gtest],
+        [home path of the gtest, defaults to $home_3rd/googletest])],
+    [GTEST_HOME="$withval"],
+    [GTEST_HOME="$home_3rd/googletest"])
+AC_SUBST([GTEST_HOME])
+
+GTEST_CPPFLAGS=-I$GTEST_HOME/include
+GTEST_LIBADD="$GTEST_HOME/lib/libgtest.a $GTEST_HOME/lib/libgtest_main.a"
+AC_SUBST(GTEST_CPPFLAGS)
+AC_SUBST(GTEST_LIBADD)
+
+###########################
+# gcov coverage reporting
+###########################
+AC_TDD_GCOV
+AC_SUBST(COVERAGE_CFLAGS)
+AC_SUBST(COVERAGE_CXXFLAGS)
+AC_SUBST(COVERAGE_LDFLAGS)
+
 
 AC_OUTPUT([
 	Makefile
 	zod/Makefile
 	proxy/Makefile
-	service/Makefile])
+	service/Makefile
+	utest/Makefile])
 
 
 

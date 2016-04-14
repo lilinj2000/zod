@@ -49,10 +49,10 @@ void Service::send(const std::string& msg) {
 void Service::stop() {
   ZOD_TRACE <<"Service::stop()";
 
-  if ( sock_ )
+  if ( sock_ ) {
     zsock_destroy(&sock_);
-
-  sock_ = nullptr;
+    sock_ = nullptr;
+  }
 }
 
 zsock_t* Service::createSock(SockType sock_type, const std::string& addr) {
