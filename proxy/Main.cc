@@ -1,10 +1,10 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#include <unistd.h>
 #include <memory>
 #include "Server.hh"
 #include "Config.hh"
+#include "soil/Pause.hh"
 
 int main(int argc, char* argv[]) {
   std::unique_ptr<proxy::Config> config
@@ -13,5 +13,5 @@ int main(int argc, char* argv[]) {
   std::unique_ptr<proxy::Server> proxy
   (new proxy::Server(config->options()));
 
-  pause();
+  std::unique_ptr<soil::Pause> pause(soil::Pause::create());
 }
