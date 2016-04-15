@@ -45,9 +45,6 @@ void RecvService::run() {
   while (is_run_) {
     // wait 1 second
     zsock_t* which = static_cast<zsock_t *>(zpoller_wait(poller_, 1000));
-    if (!is_run_)
-      break;
-
     if (!which)
       continue;
     
