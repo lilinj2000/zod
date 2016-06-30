@@ -26,7 +26,7 @@ libzod_la_LDFLAGS = \
 	-release $(LT_RELEASE)
 
 # header files
-noinst_HEADERS = Service.hh RecvService.hh \
+noinst_HEADERS = Log.hh Service.hh RecvService.hh \
 		PubServiceImpl.hh SubServiceImpl.hh \
 		PushServiceImpl.hh PullServiceImpl.hh
 
