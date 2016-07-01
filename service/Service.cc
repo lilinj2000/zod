@@ -27,7 +27,7 @@ void Service::send(const void* msg, size_t len) {
 
   zmsg_t* zmsg = zmsg_new();
   zmsg_addmem(zmsg, msg, len);
-  
+
   if (zmsg_send(&zmsg, sock_) < 0) {
     ZOD_ERROR <<"msg send failed.\n"
               <<zmq_strerror(zmq_errno());

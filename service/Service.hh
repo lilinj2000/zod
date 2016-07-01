@@ -4,8 +4,8 @@
 #ifndef ZOD_SERVICE_HH
 #define ZOD_SERVICE_HH
 
+#include <czmq.h>
 #include <string>
-#include "czmq.h"
 
 namespace zod {
 

@@ -4,7 +4,7 @@
 #ifndef PROXY_SERVER_HH
 #define PROXY_SERVER_HH
 
-#include "czmq.h"
+#include <czmq.h>
 
 namespace proxy {
 
@@ -18,7 +18,7 @@ class Server {
 
  private:
   void initProxy(int type);
-  
+
   Options* options_;
 
   zactor_t* proxy_;

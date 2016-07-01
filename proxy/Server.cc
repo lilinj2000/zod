@@ -54,13 +54,14 @@ void Server::initProxy(int type) {
   }
 
   PROXY_INFO <<"=== front addr - " <<options_->front_addr;
-  zstr_sendx(proxy_, "FRONTEND", front_sock.data(), options_->front_addr.data(), nullptr);
+  zstr_sendx(proxy_, "FRONTEND", front_sock.data(),
+             options_->front_addr.data(), nullptr);
   zsock_wait(proxy_);
 
   PROXY_INFO <<"=== backend addr - " <<options_->backend_addr;
-  zstr_sendx(proxy_, "BACKEND", backend_sock.data(), options_->backend_addr.data(), nullptr);
+  zstr_sendx(proxy_, "BACKEND", backend_sock.data(),
+             options_->backend_addr.data(), nullptr);
   zsock_wait(proxy_);
-
 }
 
 };  // namespace proxy

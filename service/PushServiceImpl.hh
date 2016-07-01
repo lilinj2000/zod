@@ -12,7 +12,7 @@ namespace zod {
 
 class PushServiceImpl : public PushService, public Service {
  public:
-  PushServiceImpl(const std::string& addr);
+  explicit PushServiceImpl(const std::string& addr);
 
   virtual ~PushServiceImpl();
 

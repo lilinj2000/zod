@@ -11,7 +11,7 @@ namespace zod {
 class PullServiceTest : public ::testing::Test, public MsgCallback {
  public:
   PullServiceTest():
-      pull_addr(">tcp://127.0.0.1:9991"){
+      pull_addr(">tcp://127.0.0.1:9991") {
   }
 
   virtual void msgCallback(const Msg* msg) {
@@ -32,5 +32,4 @@ TEST_F(PullServiceTest, createTest) {
   GTEST_SUCCEED();
 }
 
-
-}  // namespace soil
+}  // namespace zod

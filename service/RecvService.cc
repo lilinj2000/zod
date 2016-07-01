@@ -1,7 +1,7 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#include "czmq.h"
+#include <czmq.h>
 #include "RecvService.hh"
 #include "Log.hh"
 
@@ -47,7 +47,7 @@ void RecvService::run() {
     zsock_t* which = static_cast<zsock_t *>(zpoller_wait(poller_, 1000));
     if (!which)
       continue;
-    
+
     zmsg_t* zmsg = zmsg_recv(which);
     if (nullptr == zmsg) {
       ZOD_ERROR <<"recv msg failed.\n"

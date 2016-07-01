@@ -12,7 +12,7 @@ namespace zod {
 
 class PubServiceImpl : public PubService, public Service {
  public:
-  PubServiceImpl(const std::string& addr);
+  explicit PubServiceImpl(const std::string& addr);
 
   virtual ~PubServiceImpl();
 
