@@ -1,29 +1,33 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#ifndef PROXY_SERVER_HH
-#define PROXY_SERVER_HH
+#ifndef ZOD_PROXY_SERVER_HH
+#define ZOD_PROXY_SERVER_HH
 
 #include <czmq.h>
+#include <memory>
+#include "soil/json.hh"
 
+namespace zod {
 namespace proxy {
 
 class Options;
-
 class Server {
  public:
-  explicit Server(Options* options);
+  explicit Server(
+      const rapidjson::Document& doc);
 
   virtual ~Server();
 
  private:
   void initProxy(int type);
 
-  Options* options_;
-
+  std::unique_ptr<Options> options_;
   zactor_t* proxy_;
 };
 
 };  // namespace proxy
+
+};    // namespace zod
 
 #endif

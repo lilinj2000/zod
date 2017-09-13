@@ -3,15 +3,18 @@
 
 #include <cassert>
 #include "Server.hh"
-#include "Config.hh"
-#include "Log.hh"
+#include "Options.hh"
+#include "soil/Log.hh"
 
+namespace zod {
 namespace proxy {
 
-Server::Server(Options* options):
-    options_(options),
+Server::Server(
+    const rapidjson::Document& doc) :
     proxy_(nullptr) {
-  PROXY_TRACE <<"Server::Server()";
+  SOIL_TRACE("Server::Server()");
+
+  options_.reset(new Options(doc));
 
   proxy_ = zactor_new(zproxy, nullptr);
   assert(proxy_);
@@ -20,31 +23,31 @@ Server::Server(Options* options):
 }
 
 Server::~Server() {
-  PROXY_TRACE <<"Server::~Server()";
+  SOIL_TRACE("Server::~Server()");
 
   zactor_destroy(&proxy_);
 }
 
 void Server::initProxy(int type) {
-  PROXY_TRACE <<"Server::initProxy()";
+  SOIL_TRACE("Server::initProxy()");
 
   std::string front_sock;
   std::string backend_sock;
   switch (type) {
     case 1:  // forwarder
-      PROXY_INFO <<"=== proxy forwarder ===";
+      SOIL_INFO("=== proxy forwarder ===");
       front_sock = "XSUB";
       backend_sock = "XPUB";
       break;
 
     case 2:  // streamer
-      PROXY_INFO <<"=== proxy streamer ===";
+      SOIL_INFO("=== proxy streamer ===");
       front_sock = "PULL";
       backend_sock = "PUSH";
       break;
 
     case 3:  // bus
-      PROXY_INFO <<"=== proxy bus ===";
+      SOIL_INFO("=== proxy bus ===");
       front_sock = "ROUTER";
       backend_sock = "DEALER";
       break;
@@ -53,15 +56,17 @@ void Server::initProxy(int type) {
       throw std::runtime_error("invalid proxy type.");
   }
 
-  PROXY_INFO <<"=== front addr - " <<options_->front_addr;
+  SOIL_DEBUG("=== front addr - {}", options_->front_addr);
   zstr_sendx(proxy_, "FRONTEND", front_sock.data(),
              options_->front_addr.data(), nullptr);
   zsock_wait(proxy_);
 
-  PROXY_INFO <<"=== backend addr - " <<options_->backend_addr;
+  SOIL_DEBUG("=== backend addr - {}", options_->backend_addr);
   zstr_sendx(proxy_, "BACKEND", backend_sock.data(),
              options_->backend_addr.data(), nullptr);
   zsock_wait(proxy_);
 }
 
 };  // namespace proxy
+
+};    // namespace zod

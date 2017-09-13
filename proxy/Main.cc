@@ -3,15 +3,17 @@
 
 #include <memory>
 #include "Server.hh"
-#include "Config.hh"
 #include "soil/Pause.hh"
+#include "soil/json.hh"
+#include "soil/Log.hh"
 
 int main(int argc, char* argv[]) {
-  std::unique_ptr<proxy::Config> config
-  (new proxy::Config(argc, argv));
+  rapidjson::Document doc;
+  soil::json::load_from_file(&doc, "proxy.json");
+  soil::log::init(doc);
 
-  std::unique_ptr<proxy::Server> proxy
-  (new proxy::Server(config->options()));
+  std::unique_ptr<zod::proxy::Server> proxy
+    (new zod::proxy::Server(doc));
 
   std::unique_ptr<soil::Pause> pause(soil::Pause::create());
 }

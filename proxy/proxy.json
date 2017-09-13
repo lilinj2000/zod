@@ -1,0 +1,28 @@
+{
+    "log": {
+        "level": "trace", 
+        "sinks": [
+            {
+                "sink": {
+                    "level": "trace", 
+                    "type": "stdout_sink_mt"
+                }
+            }, 
+            {
+                "sink": {
+                    "file_name": "logs/proxy.log", 
+                    "max_file_size": 5000000, 
+                    "max_files": 10, 
+                    "type": "rotating_file_sink_mt"
+                }
+            }
+        ]
+    }, 
+    "zod": {
+        "proxy": {
+            "backend_addr": "@tcp://*:9991", 
+            "front_addr": "@tcp://*:9990", 
+            "type": 1
+        }
+    }
+}

@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS = foreign
 
 bin_PROGRAMS = proxy
 proxy_SOURCES = \
-	Config.cc \
+	Options.cc \
 	Server.cc \
 	Main.cc
 
@@ -10,6 +10,9 @@ proxy_CPPFLAGS =  \
 		$(BOOST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
 		$(ZMQ_CPPFLAGS) \
+		$(RAPIDJSON_CPPFLAGS) \
+		$(FMT_CPPFLAGS) \
+		$(SPDLOG_CPPFLAGS) \
 		$(CZMQ_CPPFLAGS)
 
 proxy_LDADD = \
@@ -21,9 +24,9 @@ proxy_LDADD = \
 proxy_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
 # header files
-noinst_HEADERS = Config.hh Log.hh Server.hh 
+noinst_HEADERS = Options.hh Server.hh 
 
-EXTRA_DIST = env.sh proxy.cfg log.cfg
+EXTRA_DIST = env.sh proxy.json
 
 proxydir = $(bindir)
 proxy_DATA = $(EXTRA_DIST)
