@@ -19,7 +19,13 @@ Server::Server(
   proxy_ = zactor_new(zproxy, nullptr);
   assert(proxy_);
 
-  initProxy(options_->type);
+  if (options_->type == "Forwarder") {
+    forwarderProxy();
+  } else if (options_->type == "Streamer") {
+    streamerProxy();
+  } else if (options_->type == "SharedQueue") {
+    sharedQueueProxy();
+  }
 }
 
 Server::~Server() {
@@ -28,42 +34,36 @@ Server::~Server() {
   zactor_destroy(&proxy_);
 }
 
-void Server::initProxy(int type) {
-  SOIL_TRACE("Server::initProxy()");
+void Server::forwarderProxy() {
+  SOIL_TRACE("Server::forwarderProxy()");
 
-  std::string front_sock;
-  std::string backend_sock;
-  switch (type) {
-    case 1:  // forwarder
-      SOIL_INFO("=== proxy forwarder ===");
-      front_sock = "XSUB";
-      backend_sock = "XPUB";
-      break;
-
-    case 2:  // streamer
-      SOIL_INFO("=== proxy streamer ===");
-      front_sock = "PULL";
-      backend_sock = "PUSH";
-      break;
-
-    case 3:  // bus
-      SOIL_INFO("=== proxy bus ===");
-      front_sock = "ROUTER";
-      backend_sock = "DEALER";
-      break;
-
-    default:
-      throw std::runtime_error("invalid proxy type.");
-  }
-
-  SOIL_DEBUG("=== front addr - {}", options_->front_addr);
-  zstr_sendx(proxy_, "FRONTEND", front_sock.data(),
-             options_->front_addr.data(), nullptr);
+  zstr_sendx(proxy_, "FRONTEND", "XSUB",
+             options_->frontend.data(), nullptr);
   zsock_wait(proxy_);
+  zstr_sendx(proxy_, "BACKEND", "XPUB",
+             options_->backend.data(), nullptr);
+  zsock_wait(proxy_);
+}
 
-  SOIL_DEBUG("=== backend addr - {}", options_->backend_addr);
-  zstr_sendx(proxy_, "BACKEND", backend_sock.data(),
-             options_->backend_addr.data(), nullptr);
+void Server::streamerProxy() {
+  SOIL_TRACE("Server::streamerProxy()");
+
+  zstr_sendx(proxy_, "FRONTEND", "PULL",
+             options_->frontend.data(), nullptr);
+  zsock_wait(proxy_);
+  zstr_sendx(proxy_, "BACKEND", "PUSH",
+             options_->backend.data(), nullptr);
+  zsock_wait(proxy_);
+}
+
+void Server::sharedQueueProxy() {
+  SOIL_TRACE("Server::sharedQueueProxy()");
+
+  zstr_sendx(proxy_, "FRONTEND", "ROUTE",
+             options_->frontend.data(), nullptr);
+  zsock_wait(proxy_);
+  zstr_sendx(proxy_, "BACKEND", "DEALER",
+             options_->backend.data(), nullptr);
   zsock_wait(proxy_);
 }
 

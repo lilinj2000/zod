@@ -17,9 +17,9 @@ class Options {
   virtual ~Options() {
   }
 
-  int type;
-  std::string front_addr;
-  std::string backend_addr;
+  std::string type;
+  std::string frontend;
+  std::string backend;
 };
 
 }  // namespace proxy

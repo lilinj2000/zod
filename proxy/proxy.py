@@ -24,12 +24,12 @@ log = {
     }
 
 proxy = {
-    # 1 - forwarder
-    # 2 - streamer
-    # 3 - bus
-    "type": 1,
-    "front_addr": "@tcp://*:9990",
-    "backend_addr": "@tcp://*:9991"
+    # Forwarder
+    # Streamer
+    # SharedQueue
+    "type": "Forwarder",
+    "frontend": "@tcp://*:9990",
+    "backend": "@tcp://*:9991"
     }
 
 cfg = {

@@ -82,7 +82,6 @@ BOOST_LIBADD=" \
 	      $BOOST_HOME/lib/libboost_regex.so \
 	      $BOOST_HOME/lib/libboost_thread.so \
 	      $BOOST_HOME/lib/libboost_system.so"
-
 AC_SUBST(BOOST_CPPFLAGS)
 AC_SUBST(BOOST_LIBADD)
 
@@ -158,7 +157,6 @@ AC_TDD_GCOV
 AC_SUBST(COVERAGE_CFLAGS)
 AC_SUBST(COVERAGE_CXXFLAGS)
 AC_SUBST(COVERAGE_LDFLAGS)
-
 
 AC_OUTPUT([
 	Makefile

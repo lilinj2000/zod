@@ -19,15 +19,20 @@ class Server {
 
   virtual ~Server();
 
- private:
-  void initProxy(int type);
+ protected:
+  void forwarderProxy();
 
+  void streamerProxy();
+
+  void sharedQueueProxy();
+
+ private:
   std::unique_ptr<Options> options_;
   zactor_t* proxy_;
 };
 
 };  // namespace proxy
 
-};    // namespace zod
+};  // namespace zod
 
 #endif

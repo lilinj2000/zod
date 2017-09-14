@@ -20,9 +20,9 @@
     }, 
     "zod": {
         "proxy": {
-            "backend_addr": "@tcp://*:9991", 
-            "front_addr": "@tcp://*:9990", 
-            "type": 1
+            "backend": "@tcp://*:9991", 
+            "frontend": "@tcp://*:9990", 
+            "type": "Forwarder"
         }
     }
 }
