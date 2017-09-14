@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = zod proxy service utest
+SUBDIRS = zod service utest
 
 EXTRA_DIST = deploy.sh
 

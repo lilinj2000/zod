@@ -161,7 +161,6 @@ AC_SUBST(COVERAGE_LDFLAGS)
 AC_OUTPUT([
 	Makefile
 	zod/Makefile
-	proxy/Makefile
 	service/Makefile
 	utest/Makefile])
 
