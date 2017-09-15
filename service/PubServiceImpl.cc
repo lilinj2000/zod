@@ -2,27 +2,27 @@
 // All rights reserved.
 
 #include "PubServiceImpl.hh"
-#include "Log.hh"
+#include "soil/Log.hh"
 
 namespace zod {
 
 PubServiceImpl::PubServiceImpl(const std::string& addr):
     Service(PUB_SOCK, addr) {
-  ZOD_TRACE <<"PubServiceImpl::PubServiceImpl()";
+  SOIL_TRACE("PubServiceImpl::PubServiceImpl()");
 }
 
 PubServiceImpl::~PubServiceImpl() {
-  ZOD_TRACE <<"PubServiceImpl::~PubServiceImpl()";
+  SOIL_TRACE("PubServiceImpl::~PubServiceImpl()");
 }
 
 void PubServiceImpl::sendMsg(const std::string& msg) {
-  ZOD_TRACE <<"PubServiceImpl::sendMsg()";
+  SOIL_TRACE("PubServiceImpl::sendMsg()");
 
   send(msg);
 }
 
 void PubServiceImpl::sendMsg(const void* msg, size_t len) {
-  ZOD_TRACE <<"PubServiceImpl::sendMsg()";
+  SOIL_TRACE("PubServiceImpl::sendMsg()");
 
   send(msg, len);
 }

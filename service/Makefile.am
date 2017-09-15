@@ -10,15 +10,19 @@ libzod_la_SOURCES = \
 		PullServiceImpl.cc
 
 libzod_la_CPPFLAGS = -I$(top_srcdir) \
-			$(BOOST_CPPFLAGS) \
-			$(SOIL_CPPFLAGS) \
-			$(ZMQ_CPPFLAGS) \
-			$(CZMQ_CPPFLAGS)
+		$(BOOST_CPPFLAGS) \
+		$(SOIL_CPPFLAGS) \
+		$(ZMQ_CPPFLAGS) \
+		$(RAPIDJSON_CPPFLAGS) \
+		$(FMT_CPPFLAGS) \
+		$(SPDLOG_CPPFLAGS) \
+		$(CZMQ_CPPFLAGS)
 
 libzod_la_LIBADD = \
 		$(BOOST_LIBADD) \
 		$(SOIL_LIBADD) \
-		$(CZMQ_LIBADD)
+		$(CZMQ_LIBADD) \
+		$(FMT_LIBADD)
 
 libzod_la_LDFLAGS = \
 	-no-undefined -version-info \
@@ -26,9 +30,12 @@ libzod_la_LDFLAGS = \
 	-release $(LT_RELEASE)
 
 # header files
-noinst_HEADERS = Log.hh Service.hh RecvService.hh \
-		PubServiceImpl.hh SubServiceImpl.hh \
-		PushServiceImpl.hh PullServiceImpl.hh
+noinst_HEADERS = Service.hh \
+		RecvService.hh \
+		PubServiceImpl.hh \
+		SubServiceImpl.hh \
+		PushServiceImpl.hh \
+		PullServiceImpl.hh
 
 EXTRA_DIST = 
 

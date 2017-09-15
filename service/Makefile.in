@@ -74,7 +74,7 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libzod_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libzod_la_OBJECTS = libzod_la-Service.lo libzod_la-RecvService.lo \
 	libzod_la-PubServiceImpl.lo libzod_la-SubServiceImpl.lo \
 	libzod_la-PushServiceImpl.lo libzod_la-PullServiceImpl.lo
@@ -263,15 +263,19 @@ libzod_la_SOURCES = \
 		PullServiceImpl.cc
 
 libzod_la_CPPFLAGS = -I$(top_srcdir) \
-			$(BOOST_CPPFLAGS) \
-			$(SOIL_CPPFLAGS) \
-			$(ZMQ_CPPFLAGS) \
-			$(CZMQ_CPPFLAGS)
+		$(BOOST_CPPFLAGS) \
+		$(SOIL_CPPFLAGS) \
+		$(ZMQ_CPPFLAGS) \
+		$(RAPIDJSON_CPPFLAGS) \
+		$(FMT_CPPFLAGS) \
+		$(SPDLOG_CPPFLAGS) \
+		$(CZMQ_CPPFLAGS)
 
 libzod_la_LIBADD = \
 		$(BOOST_LIBADD) \
 		$(SOIL_LIBADD) \
-		$(CZMQ_LIBADD)
+		$(CZMQ_LIBADD) \
+		$(FMT_LIBADD)
 
 libzod_la_LDFLAGS = \
 	-no-undefined -version-info \
@@ -280,9 +284,12 @@ libzod_la_LDFLAGS = \
 
 
 # header files
-noinst_HEADERS = Log.hh Service.hh RecvService.hh \
-		PubServiceImpl.hh SubServiceImpl.hh \
-		PushServiceImpl.hh PullServiceImpl.hh
+noinst_HEADERS = Service.hh \
+		RecvService.hh \
+		PubServiceImpl.hh \
+		SubServiceImpl.hh \
+		PushServiceImpl.hh \
+		PullServiceImpl.hh
 
 EXTRA_DIST = 
 all: all-am

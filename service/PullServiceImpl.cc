@@ -3,22 +3,24 @@
 
 #include <zmq.h>
 #include "PullServiceImpl.hh"
-#include "Log.hh"
+#include "soil/Log.hh"
 
 namespace zod {
 
-PullServiceImpl::PullServiceImpl(const std::string& addr,
-                                   MsgCallback* callback):
+PullServiceImpl::PullServiceImpl(
+    const std::string& addr,
+    MsgCallback* callback):
     RecvService(PULL_SOCK, addr, callback) {
-  ZOD_TRACE <<"PullServiceImpl::PullServiceImpl()";
+  SOIL_TRACE("PullServiceImpl::PullServiceImpl()");
 }
 
 PullServiceImpl::~PullServiceImpl() {
-  ZOD_TRACE <<"PullServiceImpl::~PullServiceImpl()";
+  SOIL_TRACE("PullServiceImpl::~PullServiceImpl()");
 }
 
-PullService* PullService::create(const std::string& addr,
-                                   MsgCallback* callback) {
+PullService* PullService::create(
+    const std::string& addr,
+    MsgCallback* callback) {
   return new PullServiceImpl(addr, callback);
 }
 

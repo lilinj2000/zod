@@ -3,17 +3,19 @@
 
 #include <zmq.h>
 #include "SubServiceImpl.hh"
-#include "Log.hh"
+#include "soil/Log.hh"
 
 namespace zod {
 
-SubServiceImpl::SubServiceImpl(const std::string& addr, MsgCallback* callback):
+SubServiceImpl::SubServiceImpl(
+    const std::string& addr,
+    MsgCallback* callback):
     RecvService(SUB_SOCK, addr, callback) {
-  ZOD_TRACE <<"SubServiceImpl::SubServiceImpl()";
+  SOIL_TRACE("SubServiceImpl::SubServiceImpl()");
 }
 
 SubServiceImpl::~SubServiceImpl() {
-  ZOD_TRACE <<"SubServiceImpl::~SubServiceImpl()";
+  SOIL_TRACE("SubServiceImpl::~SubServiceImpl()");
 }
 
 SubService* SubService::create(const std::string& addr,

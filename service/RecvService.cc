@@ -3,17 +3,19 @@
 
 #include <czmq.h>
 #include "RecvService.hh"
-#include "Log.hh"
+#include "soil/Log.hh"
 
 namespace zod {
 
-RecvService::RecvService(SockType sock_type, const std::string& addr,
-                           MsgCallback* callback):
+RecvService::RecvService(
+    SockType sock_type,
+    const std::string& addr,
+    MsgCallback* callback):
     Service(sock_type, addr),
     callback_(callback),
     is_run_(false),
     poller_(nullptr) {
-  ZOD_TRACE <<"RecvService::RecvService()";
+  SOIL_TRACE("RecvService::RecvService()");
 
   msg_queue_.reset(new soil::MsgQueue<Msg, MsgCallback>(callback_));
 
@@ -25,7 +27,7 @@ RecvService::RecvService(SockType sock_type, const std::string& addr,
 }
 
 RecvService::~RecvService() {
-  ZOD_TRACE <<"RecvService::~RecvService()";
+  SOIL_TRACE("RecvService::~RecvService()");
 
   is_run_ = false;
 
@@ -40,7 +42,7 @@ RecvService::~RecvService() {
 
 
 void RecvService::run() {
-  ZOD_TRACE <<"RecvService::run()";
+  SOIL_TRACE("RecvService::run()");
 
   while (is_run_) {
     // wait 1 second
@@ -50,8 +52,8 @@ void RecvService::run() {
 
     zmsg_t* zmsg = zmsg_recv(which);
     if (nullptr == zmsg) {
-      ZOD_ERROR <<"recv msg failed.\n"
-                 <<zmq_strerror(zmq_errno());
+      SOIL_ERROR("recv msg failed.\n {}",
+                 zmq_strerror(zmq_errno()));
     } else {
       zframe_t* frame = zmsg_pop(zmsg);
 
@@ -66,7 +68,7 @@ void RecvService::run() {
     }
   }
 
-  ZOD_DEBUG <<"RecvServiceImpl::run()  done.";
+  SOIL_DEBUG("RecvServiceImpl::run()  done.");
 }
 
 };  // namespace zod
