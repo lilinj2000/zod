@@ -18,8 +18,9 @@ typedef enum {
 
 class Service {
  public:
-  Service(SockType sock_type,
-          const std::string& addr);
+  Service(
+      SockType sock_type,
+      const std::string& addr);
 
   virtual ~Service();
 
@@ -29,8 +30,6 @@ class Service {
   void send(const std::string& msg);
 
   zsock_t* createSock(SockType sock_type, const std::string& addr);
-
-  void stop();
 
   std::string addr_;
 

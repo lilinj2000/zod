@@ -16,6 +16,7 @@ libzod_la_CPPFLAGS = -I$(top_srcdir) \
 		$(RAPIDJSON_CPPFLAGS) \
 		$(FMT_CPPFLAGS) \
 		$(SPDLOG_CPPFLAGS) \
+		$(READERWRITERQUEUE_CPPFLAGS) \
 		$(CZMQ_CPPFLAGS)
 
 libzod_la_LIBADD = \

@@ -5,7 +5,6 @@
 #define ZOD_PUBSERVICE_HH
 
 #include <string>
-#include "zod/ZodDef.hh"
 
 namespace zod {
 

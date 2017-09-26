@@ -17,7 +17,7 @@ RecvService::RecvService(
     poller_(nullptr) {
   SOIL_TRACE("RecvService::RecvService()");
 
-  msg_queue_.reset(new soil::MsgQueue<Msg, MsgCallback>(callback_));
+  queue_.reset(new soil::ReaderWriterQueue<Msg>(callback_));
 
   poller_ = zpoller_new(sock_, nullptr);
   assert(poller_);
@@ -30,14 +30,11 @@ RecvService::~RecvService() {
   SOIL_TRACE("RecvService::~RecvService()");
 
   is_run_ = false;
+  recv_thread_->join();
 
   zpoller_remove(poller_, sock_);
   zpoller_destroy(&poller_);
   poller_ = nullptr;
-
-  stop();
-
-  recv_thread_->join();
 }
 
 
@@ -46,9 +43,12 @@ void RecvService::run() {
 
   while (is_run_) {
     // wait 1 second
-    zsock_t* which = static_cast<zsock_t *>(zpoller_wait(poller_, 1000));
-    if (!which)
+    zsock_t* which = static_cast<zsock_t *>(
+        zpoller_wait(
+            poller_, 1000));
+    if (!which) {
       continue;
+    }
 
     zmsg_t* zmsg = zmsg_recv(which);
     if (nullptr == zmsg) {
@@ -58,9 +58,11 @@ void RecvService::run() {
       zframe_t* frame = zmsg_pop(zmsg);
 
       if (frame) {
-        std::unique_ptr<Msg> data(new Msg(zframe_data(frame),
-                                          zframe_size(frame)));
-        msg_queue_->pushMsg(data.release());
+        std::shared_ptr<Msg> data(
+            new Msg(
+                zframe_data(frame),
+                zframe_size(frame)));
+        queue_->pushMsg(data);
 
         zframe_destroy(&frame);
       }

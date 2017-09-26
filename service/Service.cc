@@ -6,8 +6,9 @@
 
 namespace zod {
 
-Service::Service(SockType sock_type,
-                 const std::string& addr):
+Service::Service(
+    SockType sock_type,
+    const std::string& addr):
     addr_(addr),
     sock_(nullptr) {
   SOIL_TRACE("Service::Service()");
@@ -19,7 +20,10 @@ Service::Service(SockType sock_type,
 Service::~Service() {
   SOIL_TRACE("Service::~Service()");
 
-  stop();
+  if (sock_) {
+    zsock_destroy(&sock_);
+    sock_ = nullptr;
+  }
 }
 
 void Service::send(const void* msg, size_t len) {
@@ -43,15 +47,6 @@ void Service::send(const std::string& msg) {
   if (zmsg_send(&zmsg, sock_) < 0) {
     SOIL_ERROR("msg send failed.\n"
                "{}", zmq_strerror(zmq_errno()));
-  }
-}
-
-void Service::stop() {
-  SOIL_TRACE("Service::stop()");
-
-  if (sock_) {
-    zsock_destroy(&sock_);
-    sock_ = nullptr;
   }
 }
 

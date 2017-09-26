@@ -5,7 +5,7 @@
 #define ZOD_PULLSERVICE_HH
 
 #include <string>
-#include "zod/ZodDef.hh"
+#include "zod/Msg.hh"
 
 namespace zod {
 
@@ -14,7 +14,9 @@ class PullService {
   virtual ~PullService() {
   }
 
-  static PullService* create(const std::string& addr, MsgCallback* callback);
+  static PullService* create(
+      const std::string& addr,
+      MsgCallback* callback);
 };
 
 

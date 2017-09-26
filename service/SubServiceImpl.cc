@@ -18,8 +18,9 @@ SubServiceImpl::~SubServiceImpl() {
   SOIL_TRACE("SubServiceImpl::~SubServiceImpl()");
 }
 
-SubService* SubService::create(const std::string& addr,
-                                 MsgCallback* callback) {
+SubService* SubService::create(
+    const std::string& addr,
+    MsgCallback* callback) {
   return new SubServiceImpl(addr, callback);
 }
 

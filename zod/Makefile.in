@@ -160,6 +160,8 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
 RAPIDJSON_CPPFLAGS = @RAPIDJSON_CPPFLAGS@
 RAPIDJSON_HOME = @RAPIDJSON_HOME@
+READERWRITERQUEUE_CPPFLAGS = @READERWRITERQUEUE_CPPFLAGS@
+READERWRITERQUEUE_HOME = @READERWRITERQUEUE_HOME@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -230,8 +232,11 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 noinst_HEADERS = 
 header_files = \
-	ZodDef.hh PubService.hh SubService.hh \
-	PushService.hh PullService.hh
+	Msg.hh \
+	PubService.hh \
+	SubService.hh \
+	PushService.hh \
+	PullService.hh
 
 EXTRA_DIST = $(header_files)
 headerdir = $(includedir)/zod

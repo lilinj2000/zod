@@ -123,6 +123,18 @@ AC_SUBST([SPDLOG_HOME])
 SPDLOG_CPPFLAGS="-I$SPDLOG_HOME/include -DSPDLOG_FMT_EXTERNAL"
 AC_SUBST(SPDLOG_CPPFLAGS)
 
+dnl readerwriterqueue lib
+READERWRITERQUEUE_HOME=$home_3rd/readerwriterqueue
+AC_ARG_WITH([readerwriterqueue], 
+    [AS_HELP_STRING([--with-readerwriterqueue],
+        [home path of the readerwriterqueue, defaults to $READERWRITERQUEUE_HOME])],
+    [READERWRITERQUEUE_HOME="$withval"],
+    [READERWRITERQUEUE_HOME="$READERWRITERQUEUE_HOME"])
+AC_SUBST([READERWRITERQUEUE_HOME])
+
+READERWRITERQUEUE_CPPFLAGS="-I$READERWRITERQUEUE_HOME/include"
+AC_SUBST(READERWRITERQUEUE_CPPFLAGS)
+
 dnl soil lib
 AC_ARG_WITH([soil],
     [AS_HELP_STRING([--with-soil],

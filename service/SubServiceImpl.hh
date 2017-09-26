@@ -10,9 +10,13 @@
 
 namespace zod {
 
-class SubServiceImpl : public SubService, public RecvService {
+class SubServiceImpl :
+      public SubService,
+      public RecvService {
  public:
-  SubServiceImpl(const std::string& addr, MsgCallback* callback);
+  SubServiceImpl(
+      const std::string& addr,
+      MsgCallback* callback);
 
   virtual ~SubServiceImpl();
 };

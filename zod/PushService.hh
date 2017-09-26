@@ -5,7 +5,6 @@
 #define ZOD_PUSHSERVICE_HH
 
 #include <string>
-#include "zod/ZodDef.hh"
 
 namespace zod {
 

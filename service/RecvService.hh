@@ -7,15 +7,18 @@
 #include <thread>
 #include <string>
 #include "Service.hh"
-#include "zod/ZodDef.hh"
-#include "soil/MsgQueue.hh"
+#include "zod/Msg.hh"
+#include "soil/ReaderWriterQueue.hh"
 
 namespace zod {
 
-class RecvService : public Service {
+class RecvService :
+      public Service {
  public:
-  RecvService(SockType sock_type, const std::string& addr,
-                MsgCallback* callback);
+  RecvService(
+      SockType sock_type,
+      const std::string& addr,
+      MsgCallback* callback);
 
   virtual ~RecvService();
 
@@ -27,7 +30,7 @@ class RecvService : public Service {
 
   volatile bool is_run_;
   std::unique_ptr<std::thread> recv_thread_;
-  std::unique_ptr<soil::MsgQueue<Msg, MsgCallback> > msg_queue_;
+  std::unique_ptr<soil::ReaderWriterQueue<Msg> > queue_;
 
   zpoller_t* poller_;
 };

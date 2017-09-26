@@ -675,6 +675,8 @@ GTEST_HOME
 SOIL_LIBADD
 SOIL_CPPFLAGS
 SOIL_HOME
+READERWRITERQUEUE_CPPFLAGS
+READERWRITERQUEUE_HOME
 SPDLOG_CPPFLAGS
 SPDLOG_HOME
 FMT_LIBADD
@@ -827,6 +829,7 @@ with_boost
 with_rapidjson
 with_fmt
 with_spdlog
+with_readerwriterqueue
 with_soil
 with_gtest
 enable_gcov
@@ -1498,6 +1501,9 @@ Optional Packages:
                           $RAPIDJSON_HOME
   --with-fmt              home path of the fmt, defaults to $FMT_HOME
   --with-spdlog           home path of the spdlog, defaults to $SPDLOG_HOME
+  --with-readerwriterqueue 
+                          home path of the readerwriterqueue, defaults to
+                          $READERWRITERQUEUE_HOME
   --with-soil             home path of the soil, defaults to $home_libs/soil
   --with-gtest            home path of the gtest, defaults to $GTEST_HOME
 
@@ -16406,6 +16412,20 @@ fi
 
 
 SPDLOG_CPPFLAGS="-I$SPDLOG_HOME/include -DSPDLOG_FMT_EXTERNAL"
+
+
+READERWRITERQUEUE_HOME=$home_3rd/readerwriterqueue
+
+@%:@ Check whether --with-readerwriterqueue was given.
+if test "${with_readerwriterqueue+set}" = set; then
+  withval=$with_readerwriterqueue; READERWRITERQUEUE_HOME="$withval"
+else
+  READERWRITERQUEUE_HOME="$READERWRITERQUEUE_HOME"
+fi
+
+
+
+READERWRITERQUEUE_CPPFLAGS="-I$READERWRITERQUEUE_HOME/include"
 
 
 

@@ -5,7 +5,7 @@
 #define ZOD_SUBSERVICE_HH
 
 #include <string>
-#include "zod/ZodDef.hh"
+#include "zod/Msg.hh"
 
 namespace zod {
 
@@ -14,7 +14,9 @@ class SubService {
   virtual ~SubService() {
   }
 
-  static SubService* create(const std::string& addr, MsgCallback* callback);
+  static SubService* create(
+      const std::string& addr,
+      MsgCallback* callback);
 };
 
 };  // namespace zod

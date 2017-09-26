@@ -10,7 +10,9 @@
 
 namespace zod {
 
-class PullServiceImpl : public PullService, public RecvService {
+class PullServiceImpl :
+      public PullService,
+      public RecvService {
  public:
   PullServiceImpl(const std::string& addr, MsgCallback* callback);
 
