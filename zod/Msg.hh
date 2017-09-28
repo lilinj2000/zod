@@ -22,6 +22,15 @@ class Msg {
   virtual ~Msg() {
   }
 
+  unsigned char* data() {
+    return data_.get();
+  }
+
+  unsigned int len() {
+    return len_;
+  }
+
+ private:
   std::unique_ptr<unsigned char> data_;
 
   unsigned int len_;

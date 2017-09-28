@@ -32,8 +32,8 @@ class PullServiceTest :
 
     SOIL_DEBUG("{}",
                soil::hexdump("receive msg",
-                             msg->data_.get(),
-                             msg->len_));
+                             msg->data(),
+                             msg->len()));
   }
 
  protected:
