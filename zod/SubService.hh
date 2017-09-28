@@ -11,6 +11,12 @@ namespace zod {
 
 class SubService {
  public:
+  virtual void setSubscribe(
+      const std::string&) = 0;
+
+  virtual void setUnsubscribe(
+      const std::string&) = 0;
+
   virtual ~SubService() {
   }
 

@@ -4,7 +4,8 @@ AUTOMAKE_OPTIONS = foreign
 check_PROGRAMS = unittest
 
 unittest_SOURCES = \
-	PullServiceTest.cc
+	PullServiceTest.cc \
+	SubServiceTest.cc
 
 unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(BOOST_CPPFLAGS) \

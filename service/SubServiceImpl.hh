@@ -18,6 +18,12 @@ class SubServiceImpl :
       const std::string& addr,
       MsgCallback* callback);
 
+  virtual void setSubscribe(
+      const std::string&);
+
+  virtual void setUnsubscribe(
+      const std::string&);
+
   virtual ~SubServiceImpl();
 };
 

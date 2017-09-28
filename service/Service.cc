@@ -61,7 +61,7 @@ zsock_t* Service::createSock(
       break;
 
     case SUB_SOCK:
-      sock = zsock_new_sub(addr.data(), "");
+      sock = zsock_new_sub(addr.data(), nullptr);
       break;
 
     case PUSH_SOCK:

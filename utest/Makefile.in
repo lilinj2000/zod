@@ -49,7 +49,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_unittest_OBJECTS = unittest-PullServiceTest.$(OBJEXT)
+am_unittest_OBJECTS = unittest-PullServiceTest.$(OBJEXT) \
+	unittest-SubServiceTest.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 am__DEPENDENCIES_1 =
 unittest_DEPENDENCIES = $(am__DEPENDENCIES_1) ../service/libzod.la \
@@ -232,7 +233,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 unittest_SOURCES = \
-	PullServiceTest.cc
+	PullServiceTest.cc \
+	SubServiceTest.cc
 
 unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(BOOST_CPPFLAGS) \
@@ -311,6 +313,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest-PullServiceTest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest-SubServiceTest.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -346,6 +349,20 @@ unittest-PullServiceTest.obj: PullServiceTest.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='PullServiceTest.cc' object='unittest-PullServiceTest.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest-PullServiceTest.obj `if test -f 'PullServiceTest.cc'; then $(CYGPATH_W) 'PullServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/PullServiceTest.cc'; fi`
+
+unittest-SubServiceTest.o: SubServiceTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest-SubServiceTest.o -MD -MP -MF $(DEPDIR)/unittest-SubServiceTest.Tpo -c -o unittest-SubServiceTest.o `test -f 'SubServiceTest.cc' || echo '$(srcdir)/'`SubServiceTest.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest-SubServiceTest.Tpo $(DEPDIR)/unittest-SubServiceTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SubServiceTest.cc' object='unittest-SubServiceTest.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest-SubServiceTest.o `test -f 'SubServiceTest.cc' || echo '$(srcdir)/'`SubServiceTest.cc
+
+unittest-SubServiceTest.obj: SubServiceTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest-SubServiceTest.obj -MD -MP -MF $(DEPDIR)/unittest-SubServiceTest.Tpo -c -o unittest-SubServiceTest.obj `if test -f 'SubServiceTest.cc'; then $(CYGPATH_W) 'SubServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/SubServiceTest.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest-SubServiceTest.Tpo $(DEPDIR)/unittest-SubServiceTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SubServiceTest.cc' object='unittest-SubServiceTest.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest-SubServiceTest.obj `if test -f 'SubServiceTest.cc'; then $(CYGPATH_W) 'SubServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/SubServiceTest.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

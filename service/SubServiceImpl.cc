@@ -14,6 +14,16 @@ SubServiceImpl::SubServiceImpl(
   SOIL_TRACE("SubServiceImpl::SubServiceImpl()");
 }
 
+void SubServiceImpl::setSubscribe(
+    const std::string& subscribe) {
+  zsock_set_subscribe(sock_, subscribe.c_str());
+}
+
+void SubServiceImpl::setUnsubscribe(
+    const std::string& subscribe) {
+  zsock_set_unsubscribe(sock_, subscribe.c_str());
+}
+
 SubServiceImpl::~SubServiceImpl() {
   SOIL_TRACE("SubServiceImpl::~SubServiceImpl()");
 }
