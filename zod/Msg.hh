@@ -22,7 +22,7 @@ class Msg {
   virtual ~Msg() {
   }
 
-  unsigned char* data() {
+  const unsigned char* data() {
     return data_.get();
   }
 
