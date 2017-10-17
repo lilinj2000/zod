@@ -42,8 +42,12 @@ class MsgCallback :
   virtual ~MsgCallback() {
   }
 
-  virtual void msgCallback(
+  virtual void onMsg(
       std::shared_ptr<Msg> msg) = 0;
+
+  virtual void onStart() = 0;
+
+  virtual void onStop() = 0;
 };
 
 };  // namespace zod
